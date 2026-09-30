@@ -31,6 +31,7 @@ jobs:
       - name: Check installation
         run: npm run check-install
       - name: Create Version Pull Request or tag release
+        id: changesets
         uses: changesets/action@v1
         with:
           version: npm run version
@@ -39,3 +40,13 @@ jobs:
           title: "chore: version skills"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Clarify tag-only publication in the version PR
+        if: steps.changesets.outputs.pullRequestNumber != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.changesets.outputs.pullRequestNumber }}
+        run: |
+          gh pr view "$PR_NUMBER" --json body --jq '.body' \
+            | sed 's/the packages will be published to npm automatically/the version tag will be created automatically; this private package is not published to npm/' \
+            > /tmp/skills-version-pr-body.md
+          gh pr edit "$PR_NUMBER" --body-file /tmp/skills-version-pr-body.md

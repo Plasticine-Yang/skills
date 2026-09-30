@@ -17,4 +17,4 @@ The examples still mention Claude Code and CodeLayer intentionally: they remain 
 
 The Changesets release workflow and version synchronization approach are adapted from [Matt Pocock's skills repository](https://github.com/mattpocock/skills), commit `d81f3a183412e71a5b1e84ca21bc1a35eea03a60`, under MIT. Matt's upstream license is retained in [licenses/mattpocock-skills.txt](licenses/mattpocock-skills.txt).
 
-Local differences: validate skills and installation before the Changesets action, fetch full Git history, and synchronize versions into the marketplace's metadata, installation groups, and npm lockfile instead of a single plugin manifest.
+Local differences: validate skills and installation before the Changesets action, fetch full Git history, synchronize versions into the marketplace's metadata, installation groups, and npm lockfile instead of a single plugin manifest, and clarify the action's default PR text to describe tag-only publication.
