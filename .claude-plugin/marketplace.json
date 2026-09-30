@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "Agent skills maintained by Plasticine",
-    "version": "0.0.0"
+    "version": "0.1.0"
   },
   "plugins": [
     {
       "name": "agentic-loops",
       "source": "./",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "description": "Design and build recurring coding-agent loops with memory and PR feedback",
       "skills": [
         "./skills/agentic-loops/build-iterated-agentic-loop",
