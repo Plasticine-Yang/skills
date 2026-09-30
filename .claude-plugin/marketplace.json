@@ -1,0 +1,23 @@
+{
+  "name": "plasticine-skills",
+  "owner": {
+    "name": "Plasticine",
+    "url": "https://github.com/Plasticine-Yang"
+  },
+  "metadata": {
+    "description": "Agent skills maintained by Plasticine",
+    "version": "0.0.0"
+  },
+  "plugins": [
+    {
+      "name": "agentic-loops",
+      "source": "./",
+      "version": "0.0.0",
+      "description": "Design and build recurring coding-agent loops with memory and PR feedback",
+      "skills": [
+        "./skills/agentic-loops/build-iterated-agentic-loop",
+        "./skills/agentic-loops/design-control-loop"
+      ]
+    }
+  ]
+}

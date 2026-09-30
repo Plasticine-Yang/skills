@@ -1,0 +1,126 @@
+{
+  "repository": "https://github.com/humanlayer/skills",
+  "commit": "ca7c8088db69e315a8b2deea43820270457f8f3c",
+  "files": [
+    {
+      "path": "skills/agentic-loops/build-iterated-agentic-loop/SKILL.md",
+      "sourcePath": "plugins/build-iterated-agentic-loop/skills/build-iterated-agentic-loop/SKILL.md",
+      "upstreamSha256": "dea5c29e2cb6133896b0bb518775e18863df377ebe0198f8d867e28e52155671",
+      "importedSha256": "328515b92e2ca609b474a5be7816b3e03b508ceffdf66b6958deb0b6f37bd51d"
+    },
+    {
+      "path": "skills/agentic-loops/build-iterated-agentic-loop/references/agent-iteration.ts",
+      "sourcePath": "plugins/build-iterated-agentic-loop/skills/build-iterated-agentic-loop/references/agent-iteration.ts",
+      "upstreamSha256": "b7a4b53d388faef2a677b11d8b38e44ac53bc8a6734ef905b76afa2f4a0fc6ec",
+      "importedSha256": "b7a4b53d388faef2a677b11d8b38e44ac53bc8a6734ef905b76afa2f4a0fc6ec"
+    },
+    {
+      "path": "skills/agentic-loops/build-iterated-agentic-loop/references/agent-runner-templates.md",
+      "sourcePath": "plugins/build-iterated-agentic-loop/skills/build-iterated-agentic-loop/references/agent-runner-templates.md",
+      "upstreamSha256": "7b8a5fb3e962a53ebb4a10613f9dd60d255d805a71da01277f9bf10c0a633b29",
+      "importedSha256": "7b8a5fb3e962a53ebb4a10613f9dd60d255d805a71da01277f9bf10c0a633b29"
+    },
+    {
+      "path": "skills/agentic-loops/build-iterated-agentic-loop/references/example-skill.md",
+      "sourcePath": "plugins/build-iterated-agentic-loop/skills/build-iterated-agentic-loop/references/example-skill.md",
+      "upstreamSha256": "2610898e4fef5ae4f296bf711d539df42862bad4266642b19809fcad87322c94",
+      "importedSha256": "e1cf7b11c060453f92363fdf941f038f1fb2a180aabeacfe0ff757c6ab33ce1b"
+    },
+    {
+      "path": "skills/agentic-loops/build-iterated-agentic-loop/references/memory-template.md",
+      "sourcePath": "plugins/build-iterated-agentic-loop/skills/build-iterated-agentic-loop/references/memory-template.md",
+      "upstreamSha256": "0e819e4a6b950ce3f000f1ce29eaf8822038b1cc7ef74e620d415250e2876167",
+      "importedSha256": "0e819e4a6b950ce3f000f1ce29eaf8822038b1cc7ef74e620d415250e2876167"
+    },
+    {
+      "path": "skills/agentic-loops/build-iterated-agentic-loop/references/prompt-template.md",
+      "sourcePath": "plugins/build-iterated-agentic-loop/skills/build-iterated-agentic-loop/references/prompt-template.md",
+      "upstreamSha256": "96f647f062c563d78983ac6d4acd7c8acceba4749893f794c0fe5a12c9cc5ccd",
+      "importedSha256": "96f647f062c563d78983ac6d4acd7c8acceba4749893f794c0fe5a12c9cc5ccd"
+    },
+    {
+      "path": "skills/agentic-loops/build-iterated-agentic-loop/references/response-template.md",
+      "sourcePath": "plugins/build-iterated-agentic-loop/skills/build-iterated-agentic-loop/references/response-template.md",
+      "upstreamSha256": "083743eb8bdc117c70450c24ed5dcc3194d34932bb42f2493d866e4809a24d99",
+      "importedSha256": "083743eb8bdc117c70450c24ed5dcc3194d34932bb42f2493d866e4809a24d99"
+    },
+    {
+      "path": "skills/agentic-loops/build-iterated-agentic-loop/references/skill-template.md",
+      "sourcePath": "plugins/build-iterated-agentic-loop/skills/build-iterated-agentic-loop/references/skill-template.md",
+      "upstreamSha256": "d1acee14854ee6a6d0f5522fa8afc11390fe8182f9a350d4f9403b790adae2e1",
+      "importedSha256": "d1acee14854ee6a6d0f5522fa8afc11390fe8182f9a350d4f9403b790adae2e1"
+    },
+    {
+      "path": "skills/agentic-loops/build-iterated-agentic-loop/references/workflow-template.yml",
+      "sourcePath": "plugins/build-iterated-agentic-loop/skills/build-iterated-agentic-loop/references/workflow-template.yml",
+      "upstreamSha256": "d6cc402f945c9311574d99763fa5a1a94208c3eb5a271c8d2d6d0e175c00c7ab",
+      "importedSha256": "7211dee70c28d0bc361e54a0825c4e00d7a36d4b0cc4376fa27c1f06b41a1639"
+    },
+    {
+      "path": "skills/agentic-loops/design-control-loop/SKILL.md",
+      "sourcePath": "plugins/design-control-loop/skills/design-control-loop/SKILL.md",
+      "upstreamSha256": "4e31d397362b23a88c7bd027cc5935fb3e5aa24eb0a5f934be0967f8974fc080",
+      "importedSha256": "b7f8378cd20a4f0a3da6c2dd8e8a5b188ad0311da6fada328085659afb690bcd"
+    },
+    {
+      "path": "skills/agentic-loops/design-control-loop/references/agent-iteration.ts",
+      "sourcePath": "plugins/design-control-loop/skills/design-control-loop/references/agent-iteration.ts",
+      "upstreamSha256": "b7a4b53d388faef2a677b11d8b38e44ac53bc8a6734ef905b76afa2f4a0fc6ec",
+      "importedSha256": "b7a4b53d388faef2a677b11d8b38e44ac53bc8a6734ef905b76afa2f4a0fc6ec"
+    },
+    {
+      "path": "skills/agentic-loops/design-control-loop/references/agent-runner-templates.md",
+      "sourcePath": "plugins/design-control-loop/skills/design-control-loop/references/agent-runner-templates.md",
+      "upstreamSha256": "add0e8e771f79f98c3d5e9a30b5d4a9f583a6496908e4edac4ec30171365520a",
+      "importedSha256": "add0e8e771f79f98c3d5e9a30b5d4a9f583a6496908e4edac4ec30171365520a"
+    },
+    {
+      "path": "skills/agentic-loops/design-control-loop/references/control-loop-taxonomy.md",
+      "sourcePath": "plugins/design-control-loop/skills/design-control-loop/references/control-loop-taxonomy.md",
+      "upstreamSha256": "03bf2e862f8322cc698c0ace1b63450b23f0a908794976a0be8780b6617be3fa",
+      "importedSha256": "03bf2e862f8322cc698c0ace1b63450b23f0a908794976a0be8780b6617be3fa"
+    },
+    {
+      "path": "skills/agentic-loops/design-control-loop/references/example-control-loop.md",
+      "sourcePath": "plugins/design-control-loop/skills/design-control-loop/references/example-control-loop.md",
+      "upstreamSha256": "faee7f1f7ffb0f98edbd2c985da75e5c2c8b8e5d0bbc427db3ac98b9a64a2219",
+      "importedSha256": "faee7f1f7ffb0f98edbd2c985da75e5c2c8b8e5d0bbc427db3ac98b9a64a2219"
+    },
+    {
+      "path": "skills/agentic-loops/design-control-loop/references/example-skill.md",
+      "sourcePath": "plugins/design-control-loop/skills/design-control-loop/references/example-skill.md",
+      "upstreamSha256": "2610898e4fef5ae4f296bf711d539df42862bad4266642b19809fcad87322c94",
+      "importedSha256": "e1cf7b11c060453f92363fdf941f038f1fb2a180aabeacfe0ff757c6ab33ce1b"
+    },
+    {
+      "path": "skills/agentic-loops/design-control-loop/references/memory-template.md",
+      "sourcePath": "plugins/design-control-loop/skills/design-control-loop/references/memory-template.md",
+      "upstreamSha256": "df37b1f52cdfdb804f71f5e5e8fccd1174e9a217d6fbf603951beb1039ce06e1",
+      "importedSha256": "df37b1f52cdfdb804f71f5e5e8fccd1174e9a217d6fbf603951beb1039ce06e1"
+    },
+    {
+      "path": "skills/agentic-loops/design-control-loop/references/prompt-template.md",
+      "sourcePath": "plugins/design-control-loop/skills/design-control-loop/references/prompt-template.md",
+      "upstreamSha256": "8b9a1d76321adfe73b05eff2f4601492bd209caad47eb4fe0390978b48078988",
+      "importedSha256": "8b9a1d76321adfe73b05eff2f4601492bd209caad47eb4fe0390978b48078988"
+    },
+    {
+      "path": "skills/agentic-loops/design-control-loop/references/response-template.md",
+      "sourcePath": "plugins/design-control-loop/skills/design-control-loop/references/response-template.md",
+      "upstreamSha256": "083743eb8bdc117c70450c24ed5dcc3194d34932bb42f2493d866e4809a24d99",
+      "importedSha256": "083743eb8bdc117c70450c24ed5dcc3194d34932bb42f2493d866e4809a24d99"
+    },
+    {
+      "path": "skills/agentic-loops/design-control-loop/references/skill-template.md",
+      "sourcePath": "plugins/design-control-loop/skills/design-control-loop/references/skill-template.md",
+      "upstreamSha256": "d1acee14854ee6a6d0f5522fa8afc11390fe8182f9a350d4f9403b790adae2e1",
+      "importedSha256": "d1acee14854ee6a6d0f5522fa8afc11390fe8182f9a350d4f9403b790adae2e1"
+    },
+    {
+      "path": "skills/agentic-loops/design-control-loop/references/workflow-template.yml",
+      "sourcePath": "plugins/design-control-loop/skills/design-control-loop/references/workflow-template.yml",
+      "upstreamSha256": "a80828159bd01f099d3e48725395359e8f20a1dc824dc21c742d2c669ddfe563",
+      "importedSha256": "ce55968146deae65349f57985f684d89660764ac98f2c062ccbe66c5fbbc7dd2"
+    }
+  ]
+}

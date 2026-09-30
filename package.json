@@ -1,0 +1,29 @@
+{
+  "name": "plasticine-skills",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Plasticine's agent skills for recurring coding-agent workflows",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Plasticine-Yang/skills"
+  },
+  "license": "MIT",
+  "scripts": {
+    "check": "node scripts/check-skills.mjs && npm run check-plugin-version",
+    "check-plugin-version": "node scripts/sync-plugin-version.mjs --check",
+    "check-migration": "node scripts/check-migration.mjs",
+    "check-install": "node scripts/check-install.mjs",
+    "changeset": "changeset",
+    "version": "changeset version && node scripts/sync-plugin-version.mjs"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.7.0",
+    "@changesets/cli": "^2.30.0",
+    "skills": "1.7.0",
+    "yaml": "^2.8.1"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "npm@10.9.4"
+}
