@@ -29,6 +29,15 @@
       ]
     },
     {
+      "name": "engineering",
+      "source": "./",
+      "version": "0.4.0",
+      "description": "Initialize projects and maintain engineering conventions with existing content preserved",
+      "skills": [
+        "./skills/engineering/setup-project"
+      ]
+    },
+    {
       "name": "answer-me",
       "source": "./",
       "version": "0.4.0",
