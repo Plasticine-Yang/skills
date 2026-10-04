@@ -50,7 +50,7 @@ try {
       const installedRoot = join(project, '.agents/skills');
       assert.deepEqual(await readdir(installedRoot), [name], 'Single-skill install included unexpected skills');
       await compareTree(source, join(installedRoot, name));
-      console.log(`Installed ${name}: all files and license match.`);
+      console.log(`Installed ${name}: all packaged files match.`);
     }
   }
   console.log('Installer grouping and independent skill installs passed.');

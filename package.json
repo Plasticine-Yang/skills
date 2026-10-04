@@ -2,7 +2,7 @@
   "name": "plasticine-skills",
   "version": "0.1.0",
   "private": true,
-  "description": "Plasticine's agent skills for recurring coding-agent workflows",
+  "description": "Plasticine's agent skills for coding workflows and clear explanations",
   "repository": {
     "type": "git",
     "url": "https://github.com/Plasticine-Yang/skills"

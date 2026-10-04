@@ -1,6 +1,6 @@
 # Plasticine Skills
 
-我维护的 coding-agent skills。当前提供 **Agentic Loops** 分组，包含两个从 HumanLayer 迁入、采用 `.agents/skills/` 默认路径的 loop skills。
+我维护的 coding-agent skills。当前提供两个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Answer Me** 包含四个用于理解模型输出的中文 skills。
 
 ## 安装
 
@@ -8,13 +8,14 @@
 npx skills@latest add Plasticine-Yang/skills
 ```
 
-交互菜单中可以整组选择 **Agentic Loops**，也可以单独选择 skill。之后选择目标 agent 和安装范围；项目安装是默认选项，全局安装使用 `-g`。
+交互菜单中可以整组选择 **Agentic Loops** 或 **Answer Me**，也可以单独选择 skill。之后选择目标 agent 和安装范围；项目安装是默认选项，全局安装使用 `-g`。
 
 只安装一个 skill：
 
 ```bash
 npx skills@latest add Plasticine-Yang/skills --skill build-iterated-agentic-loop
 npx skills@latest add Plasticine-Yang/skills --skill design-control-loop
+npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-text
 ```
 
 查看可安装列表：
@@ -39,6 +40,23 @@ npx skills@latest add Plasticine-Yang/skills --list
 这两个 skills 用于**设计和生成自动化**；安装本身不会创建或启动定时任务。生成的 skill 默认放在目标仓库的 `.agents/skills/`。是否自动发现这个目录由所选 agent 决定；需要时通过 prompt 显式指向该 `SKILL.md`，或使用该 agent 的安装配置。
 
 原文已经提供 Claude Code、Codex、OpenCode、CodeLayer 的 runner 参考。workflow 中的 CodeLayer 命令是示例，生成实际 workflow 时需要按所选 agent 替换认证、安装、调用和结果提取，普通运行与 `/iterate` 两条路径都要处理。
+
+## Answer Me
+
+根据 [Andrej Karpathy 关于理解模型输出的长帖](https://x.com/karpathy/status/2105819303471976479)编写。四个 skills 分别用文字、图解、交互网页和定制讲解视频降低理解成本；内容使用中文并保持简短，工具根据执行环境选择。
+
+| 名称 | 安装标识 | 用途 |
+| --- | --- | --- |
+| [Answer me with text](skills/answer-me/answer-me-with-text/SKILL.md) | `answer-me-with-text` | 达到 ASD-STE100 的 80% 程度去解释用户的问题。 |
+| [Answer me with diagram](skills/answer-me/answer-me-with-diagram/SKILL.md) | `answer-me-with-diagram` | 用可直接查看的图解、图表或示意图解释结构、关系、过程或数据。 |
+| [Answer me with HTML](skills/answer-me/answer-me-with-html/SKILL.md) | `answer-me-with-html` | 制作针对当前问题、可直接打开并探索的独立交互 HTML 页面。 |
+| [Answer me with video](skills/answer-me/answer-me-with-video/SKILL.md) | `answer-me-with-video` | 借鉴 3Blue1Brown 建立直觉的讲解方式，制作带旁白的定制视频。 |
+
+图解、HTML 和视频落地成文件时，分别放在当前目录的 `.answer-me/diagrams`、`.answer-me/html` 和 `.answer-me/videos` 下。
+
+当前这四个 skill 目录仅包含 `SKILL.md`，frontmatter 均设置 `disable-model-invocation: true`。在支持该字段的 agent（例如 [Claude Code](https://code.claude.com/docs/en/skills)）中，仅允许用户手动触发，可使用 `/answer-me-with-text` 等命令。Codex 可通过选择 skill 或 `$answer-me-with-text` 显式调用；其隐式调用控制使用 `agents/openai.yaml` 的 `policy.allow_implicit_invocation`，本组当前未分发该配置文件，详见 [Codex 的调用策略](https://learn.chatgpt.com/docs/build-skills)。
+
+这些原创 skills 沿用仓库根目录的 [MIT 许可](LICENSE)，从 HumanLayer 迁入的 skills 保留各自的 `LICENSE`。
 
 ## 版本与更新
 
@@ -70,7 +88,7 @@ npm run check
 npm run check-install
 ```
 
-`check` 检查主 skill 的 frontmatter、分组映射、包内 references、workflow YAML 和版本一致性。`check-install` 使用锁定版本的真实 skills CLI，在临时项目中分别安装两个 skills，并核对全部文件和许可；不会安装到全局目录。
+`check` 检查主 skill 的 frontmatter、分组映射、许可、包内 references、workflow YAML 和版本一致性。`check-install` 使用锁定版本的真实 skills CLI，在临时项目中分别安装各个 skills，并核对全部分发文件；不会安装到全局目录。
 
 首次迁移还可以运行：
 
