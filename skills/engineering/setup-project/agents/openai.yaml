@@ -1,0 +1,6 @@
+interface:
+  display_name: "Setup Project"
+  short_description: "按个人预设初始化项目，合并已有规则并管理临时产物"
+  default_prompt: "使用 $setup-project 初始化或更新当前项目的工程约定。"
+policy:
+  allow_implicit_invocation: false
