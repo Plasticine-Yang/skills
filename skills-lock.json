@@ -13,6 +13,12 @@
       "skillPath": "skills/answer-me/answer-me-with-html/SKILL.md",
       "computedHash": "828c41c7c4528fff0d4531323891e6117090df632b55b104ac89dbcf5d9fbcd0"
     },
+    "answer-me-with-html-renderer": {
+      "source": "Plasticine-Yang/skills",
+      "sourceType": "github",
+      "skillPath": "skills/answer-me/answer-me-with-html-renderer/SKILL.md",
+      "computedHash": "9bf91652347f583b4bf5e2dd22fb5e4a2632bc214a5d43d30248c8759e07f38b"
+    },
     "answer-me-with-text": {
       "source": "Plasticine-Yang/skills",
       "sourceType": "github",
