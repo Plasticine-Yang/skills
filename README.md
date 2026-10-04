@@ -1,6 +1,6 @@
 # Plasticine Skills
 
-我维护的 coding-agent skills。当前提供两个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Answer Me** 包含四个原创解释 skills，以及一个从 QingYunA 移植的 HTML 模板渲染实现。
+我维护的 coding-agent skills。当前提供三个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Collaboration** 包含先理解想法、说明做法的 `align-first`；**Answer Me** 包含四个原创解释 skills，以及一个从 QingYunA 移植的 HTML 模板渲染实现。
 
 ## 安装
 
@@ -8,13 +8,14 @@
 npx skills@latest add Plasticine-Yang/skills
 ```
 
-交互菜单中可以整组选择 **Agentic Loops** 或 **Answer Me**，也可以单独选择 skill。之后选择目标 agent 和安装范围；项目安装是默认选项，全局安装使用 `-g`。
+交互菜单中可以整组选择 **Agentic Loops**、**Collaboration** 或 **Answer Me**，也可以单独选择 skill。之后选择目标 agent 和安装范围；项目安装是默认选项，全局安装使用 `-g`。
 
 只安装一个 skill：
 
 ```bash
 npx skills@latest add Plasticine-Yang/skills --skill build-iterated-agentic-loop
 npx skills@latest add Plasticine-Yang/skills --skill design-control-loop
+npx skills@latest add Plasticine-Yang/skills --skill align-first
 npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-text
 npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-html-renderer
 ```
@@ -24,6 +25,14 @@ npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-html-rendere
 ```bash
 npx skills@latest add Plasticine-Yang/skills --list
 ```
+
+## Collaboration
+
+| Skill | 用途 |
+| --- | --- |
+| [align-first](skills/collaboration/align-first/SKILL.md) | 你先理解我的想法，告诉我你会怎么做。 |
+
+正文仅包含上面这一句话。仅允许用户手动触发：Claude Code 使用 `/align-first`，由 frontmatter 的 `disable-model-invocation: true` 控制；Codex 使用 `$align-first` 或选择 skill，由 `agents/openai.yaml` 的 `policy.allow_implicit_invocation: false` 控制。
 
 ## Agentic Loops
 
