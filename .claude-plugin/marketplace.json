@@ -20,6 +20,15 @@
       ]
     },
     {
+      "name": "collaboration",
+      "source": "./",
+      "version": "0.3.0",
+      "description": "Understand the user's idea and explain the proposed approach",
+      "skills": [
+        "./skills/collaboration/align-first"
+      ]
+    },
+    {
       "name": "answer-me",
       "source": "./",
       "version": "0.3.0",

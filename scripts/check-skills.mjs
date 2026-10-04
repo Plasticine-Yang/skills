@@ -10,7 +10,8 @@ const marketplace = JSON.parse(await readFile(join(root, '.claude-plugin/marketp
 const names = new Set();
 const declared = new Set();
 const groups = new Set();
-const originalAnswerMeSkills = new Set([
+const rootLicensedSkills = new Set([
+  'align-first',
   'answer-me-with-text',
   'answer-me-with-diagram',
   'answer-me-with-html',
@@ -64,8 +65,8 @@ for (const plugin of marketplace.plugins) {
     assert(typeof metadata.description === 'string' && metadata.description.trim(), `${skillPath}: missing description`);
     assert(!names.has(metadata.name), `Duplicate skill name: ${metadata.name}`);
     names.add(metadata.name);
-    // Only the four original Answer Me skills inherit the root license; imports retain their own copy.
-    const licensePath = join(originalAnswerMeSkills.has(metadata.name) ? root : dir, 'LICENSE');
+    // Original skills inherit the root license; imports retain their own copy.
+    const licensePath = join(rootLicensedSkills.has(metadata.name) ? root : dir, 'LICENSE');
     assert((await readFile(licensePath, 'utf8')).includes('MIT License'), `${skillPath}: license missing`);
     for (const file of await filesUnder(dir)) {
       const contents = await readFile(file, 'utf8');
