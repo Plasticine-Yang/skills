@@ -18,6 +18,18 @@
         "./skills/agentic-loops/build-iterated-agentic-loop",
         "./skills/agentic-loops/design-control-loop"
       ]
+    },
+    {
+      "name": "answer-me",
+      "source": "./",
+      "version": "0.1.0",
+      "description": "Answer questions with text, diagrams, interactive HTML, or narrated video",
+      "skills": [
+        "./skills/answer-me/answer-me-with-text",
+        "./skills/answer-me/answer-me-with-diagram",
+        "./skills/answer-me/answer-me-with-html",
+        "./skills/answer-me/answer-me-with-video"
+      ]
     }
   ]
 }

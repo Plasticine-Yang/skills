@@ -58,7 +58,9 @@ for (const plugin of marketplace.plugins) {
     assert(typeof metadata.description === 'string' && metadata.description.trim(), `${skillPath}: missing description`);
     assert(!names.has(metadata.name), `Duplicate skill name: ${metadata.name}`);
     names.add(metadata.name);
-    assert((await readFile(join(dir, 'LICENSE'), 'utf8')).includes('MIT License'), `${skillPath}: license missing`);
+    // Original Answer Me instructions use the repository license; upstream skills retain their own copy.
+    const licensePath = join(plugin.name === 'answer-me' ? root : dir, 'LICENSE');
+    assert((await readFile(licensePath, 'utf8')).includes('MIT License'), `${skillPath}: license missing`);
     for (const file of await filesUnder(dir)) {
       const contents = await readFile(file, 'utf8');
       if (/\.ya?ml$/.test(file)) parseYaml(contents, relative(root, file));
