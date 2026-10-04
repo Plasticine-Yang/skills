@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "align-first": {
+      "source": "Plasticine-Yang/skills",
+      "sourceType": "github",
+      "skillPath": "skills/collaboration/align-first/SKILL.md",
+      "computedHash": "a0a48aebc80d8c0aa8b450277c3637839ab4a5be1d4c540e78d222a54ee43ed3"
+    },
     "answer-me-with-diagram": {
       "source": "Plasticine-Yang/skills",
       "sourceType": "github",
