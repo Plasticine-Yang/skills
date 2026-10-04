@@ -1,5 +1,11 @@
 # plasticine-skills
 
+## 0.5.0
+
+### Minor Changes
+
+- [#8](https://github.com/Plasticine-Yang/skills/pull/8) [`a35f637`](https://github.com/Plasticine-Yang/skills/commit/a35f637e5b07b3cd64ddf0a60e43c6dbb3a1469c) Thanks [@Plasticine-Yang](https://github.com/Plasticine-Yang)! - 新增 Engineering 分组和仅手动触发的 setup-project skill：按个人预设配置 Matt Pocock 工程技能，合并保留已有项目内容，补齐 done、中文提交和 worktree 规则，并通过临时目录与任务记录白名单避免中间文件进入 Git。
+
 ## 0.4.0
 
 ### Minor Changes
