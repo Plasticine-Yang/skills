@@ -1,5 +1,11 @@
 # plasticine-skills
 
+## 0.4.0
+
+### Minor Changes
+
+- [#6](https://github.com/Plasticine-Yang/skills/pull/6) [`e9a457f`](https://github.com/Plasticine-Yang/skills/commit/e9a457f6f91e214192316d1b1d16f8ddd9e147d5) Thanks [@Plasticine-Yang](https://github.com/Plasticine-Yang)! - 新增 Collaboration 分组和可独立安装的 align-first skill。正文仅保留“你先理解我的想法，告诉我你会怎么做。”，并为 Claude Code 和 Codex 配置仅允许用户手动触发。
+
 ## 0.3.0
 
 ### Minor Changes
