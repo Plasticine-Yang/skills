@@ -1,6 +1,6 @@
 # Plasticine Skills
 
-我维护的 coding-agent skills。当前提供两个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Answer Me** 包含四个用于理解模型输出的中文 skills。
+我维护的 coding-agent skills。当前提供两个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Answer Me** 包含四个原创解释 skills，以及一个从 QingYunA 移植的 HTML 模板渲染实现。
 
 ## 安装
 
@@ -16,6 +16,7 @@ npx skills@latest add Plasticine-Yang/skills
 npx skills@latest add Plasticine-Yang/skills --skill build-iterated-agentic-loop
 npx skills@latest add Plasticine-Yang/skills --skill design-control-loop
 npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-text
+npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-html-renderer
 ```
 
 查看可安装列表：
@@ -43,20 +44,25 @@ npx skills@latest add Plasticine-Yang/skills --list
 
 ## Answer Me
 
-根据 [Andrej Karpathy 关于理解模型输出的长帖](https://x.com/karpathy/status/2105819303471976479)编写。四个 skills 分别用文字、图解、交互网页和定制讲解视频降低理解成本；内容使用中文并保持简短，工具根据执行环境选择。
+根据 [Andrej Karpathy 关于理解模型输出的长帖](https://x.com/karpathy/status/2105819303471976479)编写。四个原创 skills 分别用文字、图解、交互网页和定制讲解视频降低理解成本；内容使用中文并保持简短，工具根据执行环境选择。另提供从 [QingYunA/answer-me-with-html](https://github.com/QingYunA/answer-me-with-html) 移植的模板渲染版：模型写扩展 Markdown，自带 CLI 生成 HTML。
 
 | 名称 | 安装标识 | 用途 |
 | --- | --- | --- |
 | [Answer me with text](skills/answer-me/answer-me-with-text/SKILL.md) | `answer-me-with-text` | 达到 ASD-STE100 的 80% 程度去解释用户的问题。 |
 | [Answer me with diagram](skills/answer-me/answer-me-with-diagram/SKILL.md) | `answer-me-with-diagram` | 用可直接查看的图解、图表或示意图解释结构、关系、过程或数据。 |
 | [Answer me with HTML](skills/answer-me/answer-me-with-html/SKILL.md) | `answer-me-with-html` | 制作针对当前问题、可直接打开并探索的独立交互 HTML 页面。 |
+| [Answer me with HTML Renderer](skills/answer-me/answer-me-with-html-renderer/SKILL.md) | `answer-me-with-html-renderer` | 写扩展 Markdown，由自带 CLI 生成带图表、主题和写作检查的单文件 HTML。 |
 | [Answer me with video](skills/answer-me/answer-me-with-video/SKILL.md) | `answer-me-with-video` | 借鉴 3Blue1Brown 建立直觉的讲解方式，制作带旁白的定制视频。 |
 
 图解、HTML 和视频落地成文件时，分别放在当前目录的 `.answer-me/diagrams`、`.answer-me/html` 和 `.answer-me/videos` 下。
 
-当前这四个 skill 目录仅包含 `SKILL.md`，frontmatter 均设置 `disable-model-invocation: true`。在支持该字段的 agent（例如 [Claude Code](https://code.claude.com/docs/en/skills)）中，仅允许用户手动触发，可使用 `/answer-me-with-text` 等命令。Codex 可通过选择 skill 或 `$answer-me-with-text` 显式调用；其隐式调用控制使用 `agents/openai.yaml` 的 `policy.allow_implicit_invocation`，本组当前未分发该配置文件，详见 [Codex 的调用策略](https://learn.chatgpt.com/docs/build-skills)。
+HTML 的两种实现可独立安装：需要参数调整、情景切换等定制交互时用 `answer-me-with-html`；需要用现成图表和模板快速组织解释时用 `answer-me-with-html-renderer`。渲染版保留原有实现，自带打包运行时，生成页面需要 Node.js 20+，无需额外 `npm install`。还支持面板局部修改、写作检查，以及用户明确要求时的解释视频；MP4 导出需要 Node.js 22+、Chrome 和 ffmpeg。
 
-这些原创 skills 沿用仓库根目录的 [MIT 许可](LICENSE)，从 HumanLayer 迁入的 skills 保留各自的 `LICENSE`。
+渲染版的配置和缓存默认放在当前目录的 `.answer-me/html-renderer/`，可用 `AM_HOME` 修改。HTML 统一输出到 `.answer-me/html/`，使用 `-o` 命名时也遵守该目录约定；只有用户明确指定其他位置时才调整。视频输出到 `.answer-me/videos/`。调用 skill 内的 `scripts/am.mjs`，其包装入口会禁用上游的版本检查，更新跟随本仓库。来源、固定 commit 和维护方式见 [UPSTREAM.md](skills/answer-me/answer-me-with-html-renderer/UPSTREAM.md)。
+
+四个原创 skill 目录仅包含 `SKILL.md`；渲染版还分发 CLI、示例和许可文件。五个 skill 的 frontmatter 均设置 `disable-model-invocation: true`。在支持该字段的 agent（例如 [Claude Code](https://code.claude.com/docs/en/skills)）中，仅允许用户手动触发，可使用 `/answer-me-with-text` 等命令。Codex 可通过选择 skill 或 `$answer-me-with-text` 显式调用；其隐式调用控制使用 `agents/openai.yaml` 的 `policy.allow_implicit_invocation`，本组当前未分发该配置文件，详见 [Codex 的调用策略](https://learn.chatgpt.com/docs/build-skills)。
+
+原创 skills 沿用仓库根目录的 [MIT 许可](LICENSE)。从 HumanLayer 和 QingYunA 迁入的 skills 保留各自的 `LICENSE`；HTML 渲染版同时保留打包依赖的许可。
 
 ## 版本与更新
 
@@ -88,7 +94,7 @@ npm run check
 npm run check-install
 ```
 
-`check` 检查主 skill 的 frontmatter、分组映射、许可、包内 references、workflow YAML 和版本一致性。`check-install` 使用锁定版本的真实 skills CLI，在临时项目中分别安装各个 skills，并核对全部分发文件；不会安装到全局目录。
+`check` 检查主 skill 的 frontmatter、分组映射、许可、包内 references、workflow YAML 和版本一致性。`check-install` 使用锁定版本的真实 skills CLI，在临时项目中分别安装各个 skills，并核对全部分发文件；还会从独立安装目录验证 HTML 渲染、配置、面板修改与字幕视频，不会安装到全局目录。
 
 首次迁移还可以运行：
 
