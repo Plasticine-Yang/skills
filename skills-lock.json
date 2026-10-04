@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "skills": {
+    "answer-me-with-diagram": {
+      "source": "Plasticine-Yang/skills",
+      "sourceType": "github",
+      "skillPath": "skills/answer-me/answer-me-with-diagram/SKILL.md",
+      "computedHash": "8c53eb4f5d62befce2cf53c7687ea7d3d37f9923d4d96b64cdddd769dffbd07a"
+    },
+    "answer-me-with-html": {
+      "source": "Plasticine-Yang/skills",
+      "sourceType": "github",
+      "skillPath": "skills/answer-me/answer-me-with-html/SKILL.md",
+      "computedHash": "828c41c7c4528fff0d4531323891e6117090df632b55b104ac89dbcf5d9fbcd0"
+    },
+    "answer-me-with-text": {
+      "source": "Plasticine-Yang/skills",
+      "sourceType": "github",
+      "skillPath": "skills/answer-me/answer-me-with-text/SKILL.md",
+      "computedHash": "8a9132d609f1fbe83649b7d995b9de84e0b709b0826dbf612662c957ee609190"
+    },
+    "answer-me-with-video": {
+      "source": "Plasticine-Yang/skills",
+      "sourceType": "github",
+      "skillPath": "skills/answer-me/answer-me-with-video/SKILL.md",
+      "computedHash": "977da77295439812297ee9c11d658a70b7050c211c738bdd0f10dea724630bdc"
+    }
+  }
+}
