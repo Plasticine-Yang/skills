@@ -1,6 +1,6 @@
 # Plasticine Skills
 
-我维护的 coding-agent skills。当前提供三个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Collaboration** 包含先理解想法、说明做法的 `align-first`；**Answer Me** 包含四个原创解释 skills，以及一个从 QingYunA 移植的 HTML 模板渲染实现。
+我维护的 coding-agent skills。当前提供四个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Collaboration** 包含先理解想法、说明做法的 `align-first`；**Engineering** 包含按个人预设初始化项目的 `setup-project`；**Answer Me** 包含四个原创解释 skills，以及一个从 QingYunA 移植的 HTML 模板渲染实现。
 
 ## 安装
 
@@ -8,7 +8,7 @@
 npx skills@latest add Plasticine-Yang/skills
 ```
 
-交互菜单中可以整组选择 **Agentic Loops**、**Collaboration** 或 **Answer Me**，也可以单独选择 skill。之后选择目标 agent 和安装范围；项目安装是默认选项，全局安装使用 `-g`。
+交互菜单中可以整组选择 **Agentic Loops**、**Collaboration**、**Engineering** 或 **Answer Me**，也可以单独选择 skill。之后选择目标 agent 和安装范围；项目安装是默认选项，全局安装使用 `-g`。
 
 只安装一个 skill：
 
@@ -16,6 +16,7 @@ npx skills@latest add Plasticine-Yang/skills
 npx skills@latest add Plasticine-Yang/skills --skill build-iterated-agentic-loop
 npx skills@latest add Plasticine-Yang/skills --skill design-control-loop
 npx skills@latest add Plasticine-Yang/skills --skill align-first
+npx skills@latest add Plasticine-Yang/skills --skill setup-project
 npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-text
 npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-html-renderer
 ```
@@ -33,6 +34,22 @@ npx skills@latest add Plasticine-Yang/skills --list
 | [align-first](skills/collaboration/align-first/SKILL.md) | 你先理解我的想法，告诉我你会怎么做。 |
 
 正文仅包含上面这一句话。仅允许用户手动触发：Claude Code 使用 `/align-first`，由 frontmatter 的 `disable-model-invocation: true` 控制；Codex 使用 `$align-first` 或选择 skill，由 `agents/openai.yaml` 的 `policy.allow_implicit_invocation: false` 控制。
+
+## Engineering
+
+| Skill | 用途 |
+| --- | --- |
+| [setup-project](skills/engineering/setup-project/SKILL.md) | 按个人预设初始化或更新 Matt Pocock skills 的项目配置，保留已有内容。 |
+
+安装后，Codex 显式选择 skill 或输入 `$setup-project`；Claude Code 使用 `/setup-project`。仅允许用户手动触发，skill frontmatter 与 Codex 的 `agents/openai.yaml` 均关闭隐式调用。
+
+一次调用会补齐缺失的 Matt Pocock 工程 skills，并应用固定预设：本地 Markdown tracker、默认五个 triage 状态加 `done`、`AGENTS.md` 入口、UI 不添加单测、中文 commit、开发完成后 commit，以及被 Git 忽略的 `.worktrees/`。
+
+Spec、任务地图和编号 ticket 保存在 `.scratch/<feature>/` 并随代码提交；截图、日志、原始资料和中间文件放在被忽略的 `.agent-tmp/<task>/`。`.scratch/` 默认仅放行 spec、map 和编号 ticket，也兼容既有 `.Scratch/`。项目额外的长期资料按用途保留并添加精确例外，已跟踪的临时文件先分类再停止跟踪，保留本地文件。
+
+模板随 skill 分发。脚手架需要 Node.js 22+，默认只输出计划，加 `--write` 后创建缺失文档并首次追加 ignore 区块；已有文件由 agent 按章节和规则合并，保留管理区块内外的项目新增内容。新项目、已安装项目和已 setup 的项目使用同一流程，重复调用不会重复追加章节。
+
+补装只针对当前项目和当前 agent 的缺失技能，复用已有版本和定制内容。安装源与 CLI 固定到经过核对的版本；来源和维护方式见 [UPSTREAM.md](skills/engineering/setup-project/UPSTREAM.md)。初始化结束后显式暂存本次变更并用中文提交，已有用户改动和暂存内容保留。
 
 ## Agentic Loops
 
@@ -103,7 +120,7 @@ npm run check
 npm run check-install
 ```
 
-`check` 检查主 skill 的 frontmatter、分组映射、许可、包内 references、workflow YAML 和版本一致性。`check-install` 使用锁定版本的真实 skills CLI，在临时项目中分别安装各个 skills，并核对全部分发文件；还会从独立安装目录验证 HTML 渲染、配置、面板修改与字幕视频，不会安装到全局目录。
+`check` 检查主 skill 的 frontmatter、分组映射、许可、包内 references、workflow YAML 和版本一致性，并验证 setup-project 脚手架的已有内容保留、重复运行、Git ignore 和已跟踪文件分类。`check-install` 使用锁定版本的真实 skills CLI，在临时项目中分别安装各个 skills，并核对全部分发文件；还会从独立安装目录验证项目初始化脚手架、HTML 渲染、配置、面板修改与字幕视频，不会安装到全局目录。
 
 首次迁移还可以运行：
 

@@ -6,6 +6,7 @@ import { basename, dirname, join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { checkSetupProject } from './check-setup-project.mjs';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const cli = join(root, 'node_modules/skills/bin/cli.mjs');
@@ -138,6 +139,9 @@ try {
       await compareTree(source, join(installedRoot, name));
       if (name === 'answer-me-with-html-renderer') {
         await checkHtmlRenderer(join(installedRoot, name), project);
+      }
+      if (name === 'setup-project') {
+        await checkSetupProject(join(installedRoot, name));
       }
       console.log(`Installed ${name}: all packaged files match.`);
     }
