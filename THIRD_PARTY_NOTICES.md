@@ -18,7 +18,7 @@ The examples still mention Claude Code and CodeLayer intentionally: they remain 
 `skills/answer-me/answer-me-with-html-renderer/` is derived from [QingYunA/answer-me-with-html](https://github.com/QingYunA/answer-me-with-html), under MIT.
 
 - Copyright (c) 2026 Answer me with HTML contributors.
-- Upstream commit: `9e8a88a62411f9fff21a33c5d4a79ca928e6a64e` (upstream package version `0.4.3`).
+- Upstream commit: `bac7c464ee85f7008931de38e9fcaac95fa5a007` (upstream package version `0.4.9`).
 - The upstream `skills/answer-me-with-html/scripts/am.mjs` is retained unchanged in `scripts/upstream/am.mjs`.
 - The skill retains the upstream MIT license in `LICENSE`, and the bundled dependency licenses for `@dagrejs/dagre`, `@dagrejs/graphlib`, and `marked` in `licenses/`.
 

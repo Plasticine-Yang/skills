@@ -1,6 +1,6 @@
 # Plasticine Skills
 
-我维护的 coding-agent skills。当前提供四个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Collaboration** 包含先理解想法、说明做法的 `align-first`；**Engineering** 包含按个人预设初始化项目的 `setup-project`；**Answer Me** 包含四个原创解释 skills，以及一个从 QingYunA 移植的 HTML 模板渲染实现。
+我维护的 coding-agent skills。当前提供四个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Collaboration** 包含先理解想法、说明做法的 `align-first`；**Engineering** 包含初始化项目的 `setup-project` 和同步渲染器并发布的 `sync-html-renderer`；**Answer Me** 包含四个原创解释 skills，以及一个从 QingYunA 移植的 HTML 模板渲染实现。
 
 ## 安装
 
@@ -17,6 +17,7 @@ npx skills@latest add Plasticine-Yang/skills --skill build-iterated-agentic-loop
 npx skills@latest add Plasticine-Yang/skills --skill design-control-loop
 npx skills@latest add Plasticine-Yang/skills --skill align-first
 npx skills@latest add Plasticine-Yang/skills --skill setup-project
+npx skills@latest add Plasticine-Yang/skills --skill sync-html-renderer
 npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-text
 npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-html-renderer
 ```
@@ -40,6 +41,7 @@ npx skills@latest add Plasticine-Yang/skills --list
 | Skill | 用途 |
 | --- | --- |
 | [setup-project](skills/engineering/setup-project/SKILL.md) | 按个人预设初始化或更新 Matt Pocock skills 的项目配置，保留已有内容。 |
+| [sync-html-renderer](skills/engineering/sync-html-renderer/SKILL.md) | 同步渲染器的上游最新正式版本，保留本地适配，验证并发布仓库 patch。 |
 
 安装后，Codex 显式选择 skill 或输入 `$setup-project`；Claude Code 使用 `/setup-project`。仅允许用户手动触发，skill frontmatter 与 Codex 的 `agents/openai.yaml` 均关闭隐式调用。
 
@@ -50,6 +52,8 @@ Spec、任务地图和编号 ticket 保存在 `.scratch/<feature>/` 并随代码
 模板随 skill 分发。脚手架需要 Node.js 22+，默认只输出计划，加 `--write` 后创建缺失文档并首次追加 ignore 区块；已有文件由 agent 按章节和规则合并，保留管理区块内外的项目新增内容。新项目、已安装项目和已 setup 的项目使用同一流程，重复调用不会重复追加章节。
 
 补装只针对当前项目和当前 agent 的缺失技能，复用已有版本和定制内容。安装源与 CLI 固定到经过核对的版本；来源和维护方式见 [UPSTREAM.md](skills/engineering/setup-project/UPSTREAM.md)。初始化结束后显式暂存本次变更并用中文提交，已有用户改动和暂存内容保留。
+
+`$sync-html-renderer`（Claude Code：`/sync-html-renderer`）也是显式调用，一次调用授权上游同步、验证、中文提交和 patch 发布。它默认选择上游最新正式 release，复用缓存、核对校验和、生成精确差异，只替换原样文件；中文说明和依赖许可变更由 agent 合并。没有新版本时直接结束，已有未完成发布则沿原状态继续。目标是 `Plasticine-Yang/skills` 的 checkout，发布使用已有的 `./scripts/project release patch` 入口。
 
 ## Agentic Loops
 
@@ -82,7 +86,7 @@ Spec、任务地图和编号 ticket 保存在 `.scratch/<feature>/` 并随代码
 
 图解、HTML 和视频落地成文件时，分别放在当前目录的 `.answer-me/diagrams`、`.answer-me/html` 和 `.answer-me/videos` 下。
 
-HTML 的两种实现可独立安装：需要参数调整、情景切换等定制交互时用 `answer-me-with-html`；需要用现成图表和模板快速组织解释时用 `answer-me-with-html-renderer`。渲染版保留原有实现，自带打包运行时，生成页面需要 Node.js 20+，无需额外 `npm install`。还支持面板局部修改、写作检查，以及用户明确要求时的解释视频；MP4 导出需要 Node.js 22+、Chrome 和 ffmpeg。
+HTML 的两种实现可独立安装：需要参数调整、情景切换等定制交互时用 `answer-me-with-html`；需要用现成图表和模板快速组织解释时用 `answer-me-with-html-renderer`。渲染版自带上游 v0.4.9 打包运行时，生成页面需要 Node.js 20+，无需额外 `npm install`。sheet 按内容自动排版，局部修改保留原页设置，支持中英日稿件；用户明确要求时可生成解释视频，配音可使用本地兼容语音服务。MP4 导出需要 Node.js 22+、Chrome 和 ffmpeg。
 
 渲染版的配置和缓存默认放在当前目录的 `.answer-me/html-renderer/`，可用 `AM_HOME` 修改。HTML 统一输出到 `.answer-me/html/`，使用 `-o` 命名时也遵守该目录约定；只有用户明确指定其他位置时才调整。视频输出到 `.answer-me/videos/`。调用 skill 内的 `scripts/am.mjs`，其包装入口会禁用上游的版本检查，更新跟随本仓库。来源、固定 commit 和维护方式见 [UPSTREAM.md](skills/answer-me/answer-me-with-html-renderer/UPSTREAM.md)。
 
@@ -120,7 +124,7 @@ npm run check
 npm run check-install
 ```
 
-`check` 检查主 skill 的 frontmatter、分组映射、许可、包内 references、workflow YAML 和版本一致性，并验证 setup-project 脚手架的已有内容保留、重复运行、Git ignore 和已跟踪文件分类。`check-install` 使用锁定版本的真实 skills CLI，在临时项目中分别安装各个 skills，并核对全部分发文件；还会从独立安装目录验证项目初始化脚手架、HTML 渲染、配置、面板修改与字幕视频，不会安装到全局目录。
+`check` 检查主 skill 的 frontmatter、分组映射、许可、包内 references、workflow YAML 和版本一致性，并验证 setup-project 脚手架、渲染器同步保护和发布逻辑。`check-install` 使用锁定版本的真实 skills CLI，在临时项目中分别安装各个 skills，并核对全部分发文件；还会从独立安装目录验证项目初始化脚手架、HTML 渲染、配置、面板修改与无声视频设置，不会安装到全局目录。
 
 首次迁移还可以运行：
 

@@ -32,9 +32,10 @@
       "name": "engineering",
       "source": "./",
       "version": "0.5.1",
-      "description": "Initialize projects and maintain engineering conventions with existing content preserved",
+      "description": "Initialize projects, maintain engineering conventions, and sync the HTML renderer with patch releases",
       "skills": [
-        "./skills/engineering/setup-project"
+        "./skills/engineering/setup-project",
+        "./skills/engineering/sync-html-renderer"
       ]
     },
     {

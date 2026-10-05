@@ -1,6 +1,6 @@
 # HTML renderer 上游更新调查
 
-核查日期：2026-10-05（Asia/Shanghai）。本文提出同步建议；尚未升级本地 skill。依据为上游 GitHub 发布页、固定提交源码及完整 Git 历史。
+核查日期：2026-10-05（Asia/Shanghai）。本文保留升级前的同步建议和当时的验证边界；当前采用的版本以 [UPSTREAM.md](../../skills/answer-me/answer-me-with-html-renderer/UPSTREAM.md) 为准。依据为上游 GitHub 发布页、固定提交源码及完整 Git 历史。
 
 ## 版本边界
 
