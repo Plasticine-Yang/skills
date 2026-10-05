@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+# fnm resolves the project's .node-version even in a non-interactive shell.
+if command -v fnm >/dev/null 2>&1; then
+  eval "$(fnm env --shell bash)"
+  fnm use --install-if-missing --silent-if-unchanged
+fi
+if ! command -v node >/dev/null 2>&1 || ! command -v npm >/dev/null 2>&1; then
+  echo '需要 Node.js 22+ 和 npm；可安装 fnm 后重跑此命令。' >&2
+  exit 1
+fi
+node -e 'if (Number(process.versions.node.split(".")[0]) < 22) { console.error("需要 Node.js 22+"); process.exit(1); }'
+
+if [[ "${1:-}" == release ]]; then
+  shift
+  exec node scripts/release.mjs "$@"
+fi
+if [[ "${1:-}" == ci ]]; then
+  shift
+  exec npm ci "$@"
+fi
+exec npm run "$@"

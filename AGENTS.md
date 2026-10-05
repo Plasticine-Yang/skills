@@ -12,6 +12,10 @@
 ### Domain docs
 
 探索代码前读取 `docs/agents/domain.md`，按其中路径查阅相关 glossary 和 ADR。
+
+### 发布
+
+发布版本前读取 `docs/agents/release.md`，使用 `./scripts/project` 运行发布和检查。
 <!-- setup-project:agent-skills:end -->
 
 <!-- setup-project:workflow:start -->

@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: .node-version
           cache: npm
       - name: Install dependencies
         run: npm ci
@@ -36,8 +36,8 @@ jobs:
         with:
           version: npm run version
           publish: npx changeset tag
-          commit: "chore: version skills"
-          title: "chore: version skills"
+          commit: "chore: 更新技能版本"
+          title: "chore: 更新技能版本"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Clarify tag-only publication in the version PR

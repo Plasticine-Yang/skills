@@ -134,10 +134,20 @@ npm run check-migration
 
 采用 Matt Pocock 的 Changesets 流程，所有 skills 和分组共用一个仓库版本。
 
+Patch 发布可以在已提交且干净的工作区使用统一命令：
+
+```bash
+./scripts/project release patch --summary "面向用户的改动说明"
+```
+
+加 `--dry-run` 可先查看计划。命令完成 Changeset、两轮 PR、检查、合并和 Release 确认；失败后重跑会复用已有 PR。版本 PR 通过编辑事件触发检查，不需要关闭再打开。Node/npm 通过同一入口和 `.node-version` 选择；发布后保留本地分支，不额外推送 `main`。操作细节见 [发布说明](docs/agents/release.md)。
+
+Minor、major 或手动发布沿用以下流程：
+
 1. 在功能分支修改 skill 或安装行为，运行检查。
 2. 运行 `npm run changeset`，选择 `plasticine-skills`，记录升级类型和面向用户的改动说明。
 3. 将代码和 changeset 一起提交 PR，检查通过后合并到 `main`。
-4. Release workflow 自动创建或更新 **chore: version skills** PR，生成版本号和 CHANGELOG，并同步 marketplace、分组与 npm lockfile 的版本。
+4. Release workflow 自动创建或更新 **chore: 更新技能版本** PR，生成版本号和 CHANGELOG，并同步 marketplace、分组与 npm lockfile 的版本。
 5. 检查并合并版本 PR；workflow 执行 `npx changeset tag` 发布版本 tag。
 
 仓库使用 `private: true` 和 Changesets 的 `privatePackages.version/tag` 配置，只进行版本管理和 Git tag 发布，不发布 npm 包。发版过程不会改写 skill 内容。
