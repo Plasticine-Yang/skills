@@ -1,5 +1,11 @@
 # plasticine-skills
 
+## 0.5.2
+
+### Patch Changes
+
+- [#13](https://github.com/Plasticine-Yang/skills/pull/13) [`3aa0d4e`](https://github.com/Plasticine-Yang/skills/commit/3aa0d4edff3db11b34323f7b78dda45e43c16d66) Thanks [@Plasticine-Yang](https://github.com/Plasticine-Yang)! - 同步 HTML renderer 上游 v0.4.9，改善自动排版、局部修改和视频，支持日文与本地配音；新增 sync-html-renderer，一次调用完成后续上游同步、验证和 patch 发布。发布检查兼容较旧的 GitHub CLI。
+
 ## 0.5.1
 
 ### Patch Changes
