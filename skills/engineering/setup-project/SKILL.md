@@ -25,7 +25,7 @@ disable-model-invocation: true
 
 先定位用户指定的项目；在仓库内调用时使用 Git 仓库根目录，在未初始化的项目中使用当前项目目录。读取根目录及目标文件所在目录的 agent 指令。
 
-记录 `git status --short` 和已有暂存内容。读取 `AGENTS.md`、`CLAUDE.md`、`docs/agents/`、`.gitignore`、`GLOSSARY.md`、`GLOSSARY-MAP.md` 与已有 ADR 布局。检查 `.scratch/`、`.Scratch/` 的实际文件和 Git 跟踪状态。
+记录 `git status --short` 和已有暂存内容。读取 `AGENTS.md`、`CLAUDE.md`、`docs/agents/`、`.gitignore`、`GLOSSARY.md`、`GLOSSARY-MAP.md` 与已有 ADR 布局。检查 `.scratch/` 的实际文件和 Git 跟踪状态。
 
 运行随本 skill 分发的脚手架，路径从本 skill 的实际安装位置解析，不能假定安装在某个固定目录。需要 Node.js 22+。
 
@@ -74,7 +74,6 @@ node <skill-dir>/scripts/scaffold.mjs --repo <project-root> --write
 - Spec、map、ticket 及项目明确保留的长期资料继续跟踪。
 - 将确认的临时产物移到 `.agent-tmp/<task>/`，同时更新仍有价值的引用；对已跟踪临时文件逐个执行 `git rm --cached -- <path>`，保留本地文件。
 - 用途未明确、含用户改动或已经暂存的文件保持原状，报告待处理路径。
-- `.Scratch/` 使用同样的白名单保护；如需迁移到小写 `.scratch/`，先检查同名冲突，用 Git 迁移并修正引用。大小写不敏感文件系统需要中间目录名。
 
 完成条件：本次提交只包含可交付的配置和已确认的清理变更。Ignore 不会移除历史提交中的文件，本流程只调整今后的跟踪。
 

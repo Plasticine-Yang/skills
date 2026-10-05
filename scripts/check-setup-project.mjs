@@ -55,11 +55,9 @@ export async function checkSetupProject(skillDir) {
     assert(tracker.includes('Status: done'));
     assert(tracker.includes('同时接受 `resolved` 与 `done`'));
     assert(triage.includes('| `done` | `done` |'));
-    for (const spelling of ['.scratch', '.Scratch']) {
-      for (const path of ['feature/spec.md', 'feature/map.md', 'feature/issues/01-build.md']) ignored(fresh, `${spelling}/${path}`, false);
-      for (const path of ['feature/screenshot.png', 'feature/debug.md', 'feature/issues/debug.md',
-        'feature/artifacts/trace.zip', 'feature/issues/sub/01-build.md', 'loose.md']) ignored(fresh, `${spelling}/${path}`, true);
-    }
+    for (const path of ['feature/spec.md', 'feature/map.md', 'feature/issues/01-build.md']) ignored(fresh, `.scratch/${path}`, false);
+    for (const path of ['feature/screenshot.png', 'feature/debug.md', 'feature/issues/debug.md',
+      'feature/artifacts/trace.zip', 'feature/issues/sub/01-build.md', 'loose.md']) ignored(fresh, `.scratch/${path}`, true);
     ignored(fresh, '.agent-tmp/feature/debug.md', true);
     ignored(fresh, '.worktrees/feature/AGENTS.md', true);
 
