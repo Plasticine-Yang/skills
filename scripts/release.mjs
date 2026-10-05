@@ -51,6 +51,20 @@ export async function readChecks(repo, number, run = command) {
   }
 }
 
+export async function requestVersionChecks(repo, pr, title, directory, checks, run = command) {
+  let fields;
+  if (pr.title !== title) fields = { title };
+  else {
+    if ((await checks(pr.number)).length) return;
+    const marker = `<!-- release-check: ${pr.headRefOid} ${Date.now()} -->`;
+    fields = { body: (pr.body ?? '').replace(/\n?<!-- release-check: .*? -->/g, '') + `\n${marker}\n` };
+  }
+  const input = join(directory, 'version-pr-update.json');
+  await writeFile(input, JSON.stringify(fields) + '\n');
+  // REST avoids deprecated Projects fields queried by older gh pr edit versions.
+  await run('gh', ['api', `repos/${repo}/pulls/${pr.number}`, '--method', 'PATCH', '--input', input]);
+}
+
 export async function waitFor(label, probe, {
   timeout = 600_000, interval = 3_000, now = Date.now,
   sleep = (ms) => new Promise((done) => setTimeout(done, ms)), log = console.log,
@@ -139,13 +153,8 @@ class Github {
     return this.run(['pr', 'merge', String(number), '--squash', '--match-head-commit', head, '--subject', title,
       '--body', '检查通过后发布，保留 Changesets 版本记录。']);
   }
-  async requestChecks(pr, title) {
-    if (pr.title !== title) return this.run(['pr', 'edit', String(pr.number), '--title', title]);
-    if ((await this.checks(pr.number)).length) return;
-    const body = join(this.directory, 'version-pr.md');
-    const marker = `<!-- release-check: ${pr.headRefOid} ${Date.now()} -->`;
-    await writeFile(body, (pr.body ?? '').replace(/\n?<!-- release-check: .*? -->/g, '') + `\n${marker}\n`);
-    await this.run(['pr', 'edit', String(pr.number), '--body-file', body]);
+  requestChecks(pr, title) {
+    return requestVersionChecks(this.repo, pr, title, this.directory, (number) => this.checks(number));
   }
   async releaseRun(commit, wait) {
     return wait(`等待提交 ${commit.slice(0, 7)} 的 Release workflow`, async () => {

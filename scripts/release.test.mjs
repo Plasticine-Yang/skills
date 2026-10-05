@@ -5,7 +5,7 @@ import { cp, mkdir, mkdtemp, readFile, rm, symlink, writeFile } from 'node:fs/pr
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
-import { command, checksFromRollup, readChecks, finishRelease, mergeCheckedPr, validateVersion, waitFor } from './release.mjs';
+import { command, checksFromRollup, readChecks, requestVersionChecks, finishRelease, mergeCheckedPr, validateVersion, waitFor } from './release.mjs';
 
 function boundedWait() {
   let time = 0;
@@ -106,6 +106,34 @@ test('older gh uses rollup without turning pending, skipped or failed checks int
   assert.deepEqual(checksFromRollup([{ __typename: 'StatusContext', context: 'legacy', state: 'ERROR' }]), [{ name: 'legacy', bucket: 'fail' }]);
   assert.throws(() => checksFromRollup([{ name: 'check', state: 'unknown' }]), /无法识别/);
   await assert.rejects(readChecks('example/repo', 2, async () => { throw new Error('auth failed'); }), /auth failed/);
+});
+
+test('version PR edits use REST JSON, preserve body and avoid edits when checks exist', async () => {
+  const root = dirname(dirname(fileURLToPath(import.meta.url)));
+  const temporary = join(root, '.agent-tmp/release-edit-tests');
+  await mkdir(temporary, { recursive: true });
+  const directory = await mkdtemp(join(temporary, 'case-'));
+  const updates = [];
+  const run = async (binary, args) => {
+    assert.equal(binary, 'gh');
+    assert.deepEqual(args.slice(0, 5), ['api', 'repos/example/repo/pulls/2', '--method', 'PATCH', '--input']);
+    updates.push(JSON.parse(await readFile(args[5], 'utf8')));
+  };
+  try {
+    const title = 'chore: 发布 v1.0.1';
+    await requestVersionChecks('example/repo', openPr(), title, directory, async () => [], run);
+    assert.deepEqual(updates, [{ title }]);
+    const pr = { ...openPr(), title, body: '# Changelog\n保留 \"内容\"\n<!-- release-check: old 1 -->\n' };
+    await requestVersionChecks('example/repo', pr, title, directory, async () => [], run);
+    assert(updates[1].body.startsWith('# Changelog\n保留 \"内容\"\n'));
+    assert(!updates[1].body.includes('old 1'));
+    assert.match(updates[1].body, /<!-- release-check: head \d+ -->/);
+    await requestVersionChecks('example/repo', pr, title, directory, async () => [{ name: 'check', bucket: 'pending' }], run);
+    assert.equal(updates.length, 2);
+    await assert.rejects(requestVersionChecks('example/repo', openPr(), title, directory, async () => [], async () => { throw new Error('auth failed'); }), /auth failed/);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 });
 
 function versionFiles() {

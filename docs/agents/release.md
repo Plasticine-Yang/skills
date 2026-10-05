@@ -8,7 +8,7 @@
 
 先加 `--dry-run` 可查看目标版本与流程，不修改 Git 或 GitHub。命令会运行项目与安装检查，补齐或复用本包的 patch Changeset，推送当前功能分支，创建或复用修正 PR，等待检查并合并，再处理 Changesets 版本 PR、Release workflow 和正式 Release。当前分支为 `main` 时先创建 `codex/release-v<version>`。
 
-版本 PR 的 `check` 必须通过，并且所有版本元数据与目标版本一致才合并。命令用当前 `gh` 身份更新版本 PR 的中文标题，触发 Check 的 `pull_request.edited` 事件；标题已一致但缺少检查时，在保留原正文的基础上更新检查标记。使用正常 PR 事件，无需关闭再打开 PR 或配置额外 token。其他分支保护条件仍由 GitHub 执行。
+版本 PR 的 `check` 必须通过，并且所有版本元数据与目标版本一致才合并。命令用当前 `gh` 身份更新版本 PR 的中文标题，触发 Check 的 `pull_request.edited` 事件；标题已一致但缺少检查时，在保留原正文的基础上更新检查标记。通过 REST API 提交标题或正文，避开旧版 `gh pr edit` 查询的已废弃 Projects 字段。使用正常 PR 事件，无需关闭再打开 PR 或配置额外 token。其他分支保护条件仍由 GitHub 执行。
 
 命令会输出创建或复用的 PR 链接。在 Codex 中执行时，将这些 PR 通过 `attach_artifact` 附加到当前 chat。
 
