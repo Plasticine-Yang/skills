@@ -66,7 +66,7 @@ async function installedSkills(root) {
 }
 
 export function isTaskRecord(path) {
-  return /^\.[sS]cratch\/[^/]+\/(?:spec\.md|map\.md|issues\/\d{2}-[^/]+\.md)$/.test(path);
+  return /^\.scratch\/[^/]+\/(?:spec\.md|map\.md|issues\/\d{2}-[^/]+\.md)$/.test(path);
 }
 
 export async function scaffoldProject(projectRoot, { write = false } = {}) {
@@ -102,7 +102,7 @@ export async function scaffoldProject(projectRoot, { write = false } = {}) {
   if (gitRoot && tracked === null) throw new Error('Unable to inspect tracked files.');
   const trackedPaths = (tracked ?? '').split('\0').filter(Boolean);
   const reviewTracked = trackedPaths.filter((path) =>
-    (/^\.[sS]cratch\//.test(path) && !isTaskRecord(path))
+    (/^\.scratch\//.test(path) && !isTaskRecord(path))
       || /^(?:\.agent-tmp|\.worktrees)\//.test(path));
   const report = {
     root, gitRepository: Boolean(gitRoot),

@@ -20,7 +20,7 @@
 ## Git ignore 与已有文件
 
 - 首次应用追加模板的 ignore 区块，保留已有条目。后续合并区块时保留项目新增的例外和注释。
-- 默认放行 `.scratch/<feature>/spec.md`、`map.md`、`issues/NN-*.md`；`.Scratch/` 使用同样规则。额外的长期资料先分类，再加精确路径例外。
+- 默认放行 `.scratch/<feature>/spec.md`、`map.md`、`issues/NN-*.md`。额外的长期资料先分类，再加精确路径例外。
 - 放行深层目录中的文件时，需要同时放行从 feature 目录到该文件的各级父目录。用真实路径执行 `git check-ignore --no-index`，以匹配结果为准。
 - `.agent-tmp/` 和 `.worktrees/` 必须被忽略。若已有下级 `.gitignore` 或末尾的反向规则抵消模板，调整冲突的条目并验证。
 - `git ls-files` 中未符合白名单的文件只是待分类项：Markdown 研究结论或正式附件可能是长期资产。确认的临时文件逐个停止跟踪并保留本地，未明确用途的文件列入结果。

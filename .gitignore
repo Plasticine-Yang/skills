@@ -6,12 +6,12 @@ node_modules/
 .worktrees/
 
 # setup-project:start
-# 任务记录白名单；同时兼容已有的 .Scratch/。
-!/.[sS]cratch/
-/.[sS]cratch/**
-!/.[sS]cratch/*/
-!/.[sS]cratch/*/spec.md
-!/.[sS]cratch/*/map.md
-!/.[sS]cratch/*/issues/
-!/.[sS]cratch/*/issues/[0-9][0-9]-*.md
+# 任务记录白名单
+!/.scratch/
+/.scratch/**
+!/.scratch/*/
+!/.scratch/*/spec.md
+!/.scratch/*/map.md
+!/.scratch/*/issues/
+!/.scratch/*/issues/[0-9][0-9]-*.md
 # setup-project:end
