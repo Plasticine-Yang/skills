@@ -5,7 +5,7 @@ import { cp, mkdir, mkdtemp, readFile, rm, symlink, writeFile } from 'node:fs/pr
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
-import { command, finishRelease, mergeCheckedPr, validateVersion, waitFor } from './release.mjs';
+import { command, checksFromRollup, readChecks, finishRelease, mergeCheckedPr, validateVersion, waitFor } from './release.mjs';
 
 function boundedWait() {
   let time = 0;
@@ -81,6 +81,31 @@ test('gh exit 8 and 1 with check JSON remain observable, other errors stop', asy
     await assert.rejects(command(process.execPath, args));
   }
   await assert.rejects(command(process.execPath, ['-e', 'console.error("auth failed"); process.exit(1)'], { allowCheckResult: true }), /auth failed/);
+});
+
+test('older gh uses rollup without turning pending, skipped or failed checks into success', async () => {
+  for (const [status, conclusion, bucket] of [
+    ['IN_PROGRESS', '', 'pending'], ['COMPLETED', 'SUCCESS', 'pass'],
+    ['COMPLETED', 'FAILURE', 'fail'], ['COMPLETED', 'CANCELLED', 'cancel'],
+    ['COMPLETED', 'SKIPPED', 'skipping'], ['COMPLETED', 'NEUTRAL', 'skipping'],
+  ]) {
+    const run = async (binary, args) => {
+      if (args[1] === 'checks') throw new Error('unknown flag: --json');
+      assert.deepEqual(args.slice(0, 5), ['pr', 'view', '2', '--json', 'statusCheckRollup']);
+      return JSON.stringify({ statusCheckRollup: [{ __typename: 'CheckRun', name: 'check', status, conclusion }] });
+    };
+    const checks = await readChecks('example/repo', 2, run);
+    assert.deepEqual(checks, [{ name: 'check', bucket }]);
+    if (bucket !== 'pass') {
+      const github = githubFixture();
+      github.checks = async () => checks;
+      await assert.rejects(mergeCheckedPr(github, 2, 'head', '发布', boundedWait()));
+      assert.deepEqual(github.events, []);
+    }
+  }
+  assert.deepEqual(checksFromRollup([{ __typename: 'StatusContext', context: 'legacy', state: 'ERROR' }]), [{ name: 'legacy', bucket: 'fail' }]);
+  assert.throws(() => checksFromRollup([{ name: 'check', state: 'unknown' }]), /无法识别/);
+  await assert.rejects(readChecks('example/repo', 2, async () => { throw new Error('auth failed'); }), /auth failed/);
 });
 
 function versionFiles() {
