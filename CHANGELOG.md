@@ -1,5 +1,11 @@
 # plasticine-skills
 
+## 0.5.1
+
+### Patch Changes
+
+- [#10](https://github.com/Plasticine-Yang/skills/pull/10) [`2114361`](https://github.com/Plasticine-Yang/skills/commit/211436137a8a474654279d607992ee2e96a18f2b) Thanks [@Plasticine-Yang](https://github.com/Plasticine-Yang)! - setup-project 统一使用小写 `.scratch/`，移除无依据的 `.Scratch/` 兼容规则，并同步清理 Git ignore 模板、脚手架和文档。
+
 ## 0.5.0
 
 ### Minor Changes
