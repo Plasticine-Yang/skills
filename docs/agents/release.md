@@ -16,6 +16,8 @@
 
 `./scripts/project` 是非交互 shell 的 Node/npm 入口。安装了 fnm 时按 `.node-version` 选择 Node 22，首次缺失时安装；未安装 fnm 时使用 PATH 中已有的 Node 22+ 与 npm。CI 也从 `.node-version` 读取版本。
 
+兼容尚不支持 `gh pr checks --json` 的旧版 GitHub CLI：该参数不可用时改读 `gh pr view --json statusCheckRollup`，同时检查 Actions 和传统状态。仍要求名为 `check` 的检查成功及分支保护允许合并；进行中、失败、取消或跳过均不能充当通过。
+
 ```bash
 ./scripts/project check
 ./scripts/project check-install

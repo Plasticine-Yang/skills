@@ -3,11 +3,11 @@
 这是 `answer-me-with-html` 的模板渲染实现，安装名为 `answer-me-with-html-renderer`。本仓库原有的交互 HTML skill 保持独立。
 
 - 上游：[QingYunA/answer-me-with-html](https://github.com/QingYunA/answer-me-with-html)。
-- 固定 commit：`9e8a88a62411f9fff21a33c5d4a79ca928e6a64e`。
-- 上游 package 版本：`0.4.3`；本仓库的发行版本独立管理。
+- 固定 commit：`bac7c464ee85f7008931de38e9fcaac95fa5a007`。
+- 上游 package 版本：`0.4.9`；本仓库的发行版本独立管理。
 - 原路径：`skills/answer-me-with-html/`。
 - `scripts/upstream/am.mjs` 与该 commit 的打包 CLI 字节一致。
-- CLI SHA-256：`98305bb1abaeaf5f5752ad96adbc131c84903e61d3613fc8c672192c67f1dfe2`。
+- CLI SHA-256：`22aba64b660f3036cbb4986d88ee3eb0a6a83cd923af4d8f52315e853380e2b1`。
 - `references/example.md` 和 `references/video-example.md` 分别来自上游 `examples/tcp.md` 和 `examples/video-tcp.md`，未修改。
 
 ## 本地适配
@@ -23,6 +23,8 @@
 - `am clean` 仅处理 `AM_HOME` 数据目录，不处理这些默认成品目录。原版 `help` 中的默认路径以包装入口的说明为准。
 
 未导入上游 marketplace、全局命令或 always-on 插件；如需高频输出，用户可用本实现的名字在规则中显式启用。
+
+同步 `v0.4.9` 时引入 sheet 自动排版、patch 保留页面与视频设置、日文识别、本地 TTS 及修复，中文说明同步相应语义。该次同步未纳入发布后的 main 补丁。
 
 ## 运行
 
@@ -45,6 +47,8 @@ CLI 命令和组件语法可用 `help`、`help flow`、`help patch`、`help vide
 | `marked` | `18.0.14` | [marked.txt](licenses/marked.txt) |
 
 ## 更新上游
+
+在本仓库调用 `sync-html-renderer` 可完成上游正式版本同步、验证和 patch 发布；其 `prepare` / `apply` 辅助脚本复用缓存并核对原样文件，保留本地包装和说明。没有新版本时不创建空 release。以下是手动维护流程：
 
 1. 在临时目录检出要引入的上游 commit，阅读 `SKILL.md` 和变更记录。
 2. 从该 commit 复制已打包的 CLI 到 `scripts/upstream/am.mjs`。不要直接修改生成文件；需要改渲染器时，在上游源码中修改并重新构建。

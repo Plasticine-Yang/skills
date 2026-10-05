@@ -112,15 +112,29 @@ async function checkHtmlRenderer(installed, project) {
     '---', 'title: 字幕验证', '---', '## A 流程',
     '```flow', '输入 -> 输出', '```', '> 从输入得到输出。', '',
   ].join('\n');
+  success(['config', 'set', 'style', 'off']);
   const video = outputPath(success(['video', '-', '--voice', 'off'], videoDraft));
   assert.equal(dirname(video), join(project, '.answer-me/videos'));
   assert((await readFile(video, 'utf8')).includes('data-video>'));
+
+  // A later config change must not turn a silent video patch into TTS or reset its appearance.
+  success(['config', 'set', 'theme', 'blueprint']);
+  success(['config', 'set', 'mode', 'light']);
+  success(['config', 'set', 'style', 'strict']);
+  success(['config', 'set', 'voice', 'local']);
+  success(['patch', video, '--panel', 'A'], '## A 流程\n```flow\n输入 -> 新输出\n```\n> 从输入得到新输出。\n');
+  const patchedVideo = await readFile(video, 'utf8');
+  const videoRoot = patchedVideo.match(/<html\b[^>]*>/)[0];
+  assert(videoRoot.includes('data-video'));
+  assert(videoRoot.includes('data-theme="shadcn" data-mode="dark" data-style="off"'));
+  assert(!patchedVideo.includes('<audio id="amv-audio"'), 'Silent patch started voice-over');
+  success(['config', 'set', 'theme', 'shadcn']);
 
   const customDataDir = join(project, 'custom-renderer-state');
   success(['config', 'set', 'theme', 'blueprint'], undefined, { AM_HOME: customDataDir });
   assert.equal(JSON.parse(await readFile(join(customDataDir, 'config.json'), 'utf8')).theme, 'blueprint');
   assert.equal(JSON.parse(await readFile(join(dataDir, 'config.json'), 'utf8')).theme, 'shadcn');
-  console.log('HTML renderer: standalone render, local configuration, output paths, patch, and caption video passed.');
+  console.log('HTML renderer: standalone render, local configuration, output paths, patch, and silent video settings passed.');
 }
 
 try {

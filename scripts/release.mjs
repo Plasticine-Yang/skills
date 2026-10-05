@@ -22,6 +22,35 @@ export async function command(binary, args, { allowCheckResult = false } = {}) {
   }
 }
 
+export function checksFromRollup(checks) {
+  if (!Array.isArray(checks)) throw new Error('GitHub 未返回检查列表。');
+  const buckets = { SUCCESS: 'pass', FAILURE: 'fail', ERROR: 'fail', TIMED_OUT: 'fail',
+    ACTION_REQUIRED: 'fail', STARTUP_FAILURE: 'fail', STALE: 'fail', CANCELLED: 'cancel',
+    SKIPPED: 'skipping', NEUTRAL: 'skipping', PENDING: 'pending', EXPECTED: 'pending' };
+  return checks.map((check) => {
+    const name = check.name ?? check.context;
+    const state = check.__typename === 'CheckRun'
+      ? check.status === 'COMPLETED' ? check.conclusion : 'PENDING'
+      : check.state;
+    const bucket = buckets[state];
+    if (!name || !bucket) throw new Error(`GitHub 检查状态无法识别：${name ?? ''} ${state ?? ''}`);
+    return { name, bucket };
+  });
+}
+
+export async function readChecks(repo, number, run = command) {
+  try {
+    return JSON.parse(await run('gh', ['pr', 'checks', String(number), '--required', '--json', 'name,bucket',
+      '--repo', repo], { allowCheckResult: true }));
+  } catch (error) {
+    if (error.message.includes('no checks reported')) return [];
+    if (!error.message.includes('unknown flag: --json')) throw error;
+    // Older gh still exposes both Actions and legacy statuses through pr view.
+    const pr = JSON.parse(await run('gh', ['pr', 'view', String(number), '--json', 'statusCheckRollup', '--repo', repo]));
+    return checksFromRollup(pr.statusCheckRollup);
+  }
+}
+
 export async function waitFor(label, probe, {
   timeout = 600_000, interval = 3_000, now = Date.now,
   sleep = (ms) => new Promise((done) => setTimeout(done, ms)), log = console.log,
@@ -104,13 +133,7 @@ class Github {
   async json(args) { return JSON.parse(await this.run(args)); }
   pr(number) { return this.json(['pr', 'view', String(number), '--json', prFields]); }
   async checks(number) {
-    try {
-      return JSON.parse(await command('gh', ['pr', 'checks', String(number), '--required', '--json', 'name,bucket',
-        '--repo', this.repo], { allowCheckResult: true }));
-    } catch (error) {
-      if (!error.message.includes('no checks reported')) throw error;
-      return [];
-    }
+    return readChecks(this.repo, number);
   }
   merge(number, head, title) {
     return this.run(['pr', 'merge', String(number), '--squash', '--match-head-commit', head, '--subject', title,

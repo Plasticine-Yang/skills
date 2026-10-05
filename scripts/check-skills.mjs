@@ -13,6 +13,7 @@ const groups = new Set();
 const rootLicensedSkills = new Set([
   'align-first',
   'setup-project',
+  'sync-html-renderer',
   'answer-me-with-text',
   'answer-me-with-diagram',
   'answer-me-with-html',
@@ -66,10 +67,12 @@ for (const plugin of marketplace.plugins) {
     assert(typeof metadata.description === 'string' && metadata.description.trim(), `${skillPath}: missing description`);
     assert(!names.has(metadata.name), `Duplicate skill name: ${metadata.name}`);
     names.add(metadata.name);
+    if (['setup-project', 'sync-html-renderer'].includes(metadata.name)) {
+      assert.equal(metadata['disable-model-invocation'], true, `${metadata.name} must be manually invoked`);
+      const agentConfig = parseYaml(await readFile(join(dir, 'agents/openai.yaml'), 'utf8'), `${metadata.name}/agents/openai.yaml`);
+      assert.equal(agentConfig.policy?.allow_implicit_invocation, false, `${metadata.name} must disable implicit invocation in Codex`);
+    }
     if (metadata.name === 'setup-project') {
-      assert.equal(metadata['disable-model-invocation'], true, 'setup-project must be manually invoked');
-      const agentConfig = parseYaml(await readFile(join(dir, 'agents/openai.yaml'), 'utf8'), 'setup-project/agents/openai.yaml');
-      assert.equal(agentConfig.policy?.allow_implicit_invocation, false, 'setup-project must disable implicit invocation in Codex');
       assert((await readFile(join(dir, 'licenses/mattpocock-skills.txt'), 'utf8')).includes('Copyright (c) 2026 Matt Pocock'));
     }
     // Original skills inherit the root license; imports retain their own copy.

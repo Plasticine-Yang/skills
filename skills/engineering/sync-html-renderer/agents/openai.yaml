@@ -1,0 +1,6 @@
+interface:
+  display_name: "Sync HTML Renderer"
+  short_description: "同步渲染器上游正式版本，保留本地适配并验证发布 patch"
+  default_prompt: "使用 $sync-html-renderer 同步最新上游正式版本，验证并发布 patch release。"
+policy:
+  allow_implicit_invocation: false
