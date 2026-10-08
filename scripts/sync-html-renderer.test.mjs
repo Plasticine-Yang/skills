@@ -5,7 +5,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
-import { inspect, applyPlan } from '../skills/engineering/sync-html-renderer/scripts/sync-upstream.mjs';
+import { inspect, applyPlan } from '../.agents/skills/sync-html-renderer/scripts/sync-upstream.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const hash = (text) => createHash('sha256').update(text).digest('hex');

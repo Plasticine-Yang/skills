@@ -139,6 +139,7 @@ async function checkHtmlRenderer(installed, project) {
 
 try {
   const listed = run(['add', root, '--list'], sandbox);
+  assert(!listed.includes('sync-html-renderer'), 'Installer exposed the internal maintenance skill');
   for (const plugin of marketplace.plugins) {
     const title = plugin.name.split('-').map((s) => s[0].toUpperCase() + s.slice(1)).join(' ');
     assert(listed.includes(title), `Installer omitted group ${title}`);

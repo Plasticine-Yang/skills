@@ -1,6 +1,6 @@
 # Plasticine Skills
 
-我维护的 coding-agent skills。当前提供四个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Collaboration** 包含先理解想法、说明做法的 `align-first`；**Engineering** 包含初始化项目的 `setup-project` 和同步渲染器并发布的 `sync-html-renderer`；**Answer Me** 包含四个原创解释 skills，以及一个从 QingYunA 移植的 HTML 模板渲染实现。
+我维护的 coding-agent skills。当前提供四个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Collaboration** 包含先理解想法、说明做法的 `align-first`；**Engineering** 包含初始化项目的 `setup-project`；**Answer Me** 包含四个原创解释 skills，以及一个从 QingYunA 移植的 HTML 模板渲染实现。
 
 ## 安装
 
@@ -17,7 +17,6 @@ npx skills@latest add Plasticine-Yang/skills --skill build-iterated-agentic-loop
 npx skills@latest add Plasticine-Yang/skills --skill design-control-loop
 npx skills@latest add Plasticine-Yang/skills --skill align-first
 npx skills@latest add Plasticine-Yang/skills --skill setup-project
-npx skills@latest add Plasticine-Yang/skills --skill sync-html-renderer
 npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-text
 npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-html-renderer
 ```
@@ -41,7 +40,6 @@ npx skills@latest add Plasticine-Yang/skills --list
 | Skill | 用途 |
 | --- | --- |
 | [setup-project](skills/engineering/setup-project/SKILL.md) | 按个人预设初始化或更新 Matt Pocock skills 的项目配置，保留已有内容。 |
-| [sync-html-renderer](skills/engineering/sync-html-renderer/SKILL.md) | 同步渲染器的上游最新正式版本，保留本地适配，验证并发布仓库 patch。 |
 
 安装后，Codex 显式选择 skill 或输入 `$setup-project`；Claude Code 使用 `/setup-project`。仅允许用户手动触发，skill frontmatter 与 Codex 的 `agents/openai.yaml` 均关闭隐式调用。
 
@@ -52,8 +50,6 @@ Spec、任务地图和编号 ticket 保存在 `.scratch/<feature>/` 并随代码
 模板随 skill 分发。脚手架需要 Node.js 22+，默认只输出计划，加 `--write` 后创建缺失文档并首次追加 ignore 区块；已有文件由 agent 按章节和规则合并，保留管理区块内外的项目新增内容。新项目、已安装项目和已 setup 的项目使用同一流程，重复调用不会重复追加章节。
 
 补装只针对当前项目和当前 agent 的缺失技能，复用已有版本和定制内容。安装源与 CLI 固定到经过核对的版本；来源和维护方式见 [UPSTREAM.md](skills/engineering/setup-project/UPSTREAM.md)。初始化结束后显式暂存本次变更并用中文提交，已有用户改动和暂存内容保留。
-
-`$sync-html-renderer`（Claude Code：`/sync-html-renderer`）也是显式调用，一次调用授权上游同步、验证、中文提交和 patch 发布。它默认选择上游最新正式 release，复用缓存、核对校验和、生成精确差异，只替换原样文件；中文说明和依赖许可变更由 agent 合并。没有新版本时直接结束，已有未完成发布则沿原状态继续。目标是 `Plasticine-Yang/skills` 的 checkout，发布使用已有的 `./scripts/project release patch` 入口。
 
 ## Agentic Loops
 
@@ -115,6 +111,8 @@ npx skills@latest add "Plasticine-Yang/skills#v0.1.0"
 仓库初始化版本为 `0.0.0`，首次导入附带 minor changeset，首个版本 PR 将生成 `0.1.0`；上面的固定版本命令需要等该 tag 发布后才能使用。
 
 ## 开发与检查
+
+仓库内部维护技能位于 `.agents/skills/`。[sync-html-renderer](.agents/skills/sync-html-renderer/SKILL.md) 用于同步渲染器上游正式版本，保留本地适配，验证并发布 patch。它仅在本仓库显式调用；`metadata.internal: true` 使 skills CLI 默认安装列表排除该技能，marketplace 也不声明它。
 
 需要 Node.js 22 或更高版本，使用 npm 10。
 

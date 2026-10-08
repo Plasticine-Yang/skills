@@ -48,7 +48,7 @@ CLI 命令和组件语法可用 `help`、`help flow`、`help patch`、`help vide
 
 ## 更新上游
 
-在本仓库调用 `sync-html-renderer` 可完成上游正式版本同步、验证和 patch 发布；其 `prepare` / `apply` 辅助脚本复用缓存并核对原样文件，保留本地包装和说明。没有新版本时不创建空 release。以下是手动维护流程：
+在本仓库调用内部维护 skill `.agents/skills/sync-html-renderer/SKILL.md` 可完成上游正式版本同步、验证和 patch 发布；其 `prepare` / `apply` 辅助脚本复用缓存并核对原样文件，保留本地包装和说明。没有新版本时不创建空 release。以下是手动维护流程：
 
 1. 在临时目录检出要引入的上游 commit，阅读 `SKILL.md` 和变更记录。
 2. 从该 commit 复制已打包的 CLI 到 `scripts/upstream/am.mjs`。不要直接修改生成文件；需要改渲染器时，在上游源码中修改并重新构建。
