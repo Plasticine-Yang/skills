@@ -82,7 +82,7 @@ Spec、任务地图和编号 ticket 保存在 `.scratch/<feature>/` 并随代码
 
 图解、HTML 和视频落地成文件时，分别放在当前目录的 `.answer-me/diagrams`、`.answer-me/html` 和 `.answer-me/videos` 下。
 
-HTML 的两种实现可独立安装：需要参数调整、情景切换等定制交互时用 `answer-me-with-html`；需要用现成图表和模板快速组织解释时用 `answer-me-with-html-renderer`。渲染版自带上游 v0.4.9 打包运行时，生成页面需要 Node.js 20+，无需额外 `npm install`。sheet 按内容自动排版，局部修改保留原页设置，支持中英日稿件；用户明确要求时可生成解释视频，配音可使用本地兼容语音服务。MP4 导出需要 Node.js 22+、Chrome 和 ffmpeg。
+HTML 的两种实现可独立安装：需要参数调整、情景切换等定制交互时用 `answer-me-with-html`；需要用现成图表和模板快速组织解释时用 `answer-me-with-html-renderer`。渲染版自带上游 v0.4.14 打包运行时，生成页面需要 Node.js 20+，无需额外 `npm install`。支持自动主题、paper 与自定义主题、图表放大缩放、本地图片内嵌、真实代码引用和红绿 diff，以及页面提问、面板评论和统一回复。语言识别与写作检查覆盖简繁中文和更多文字系统；局部修改保留页面、语言与视频设置。用户明确要求时可生成解释视频，配音可使用本地兼容语音服务。MP4 导出需要 Node.js 22+、Chrome 和 ffmpeg。
 
 渲染版的配置和缓存默认放在当前目录的 `.answer-me/html-renderer/`，可用 `AM_HOME` 修改。HTML 统一输出到 `.answer-me/html/`，使用 `-o` 命名时也遵守该目录约定；只有用户明确指定其他位置时才调整。视频输出到 `.answer-me/videos/`。调用 skill 内的 `scripts/am.mjs`，其包装入口会禁用上游的版本检查，更新跟随本仓库。来源、固定 commit 和维护方式见 [UPSTREAM.md](skills/answer-me/answer-me-with-html-renderer/UPSTREAM.md)。
 
@@ -112,7 +112,7 @@ npx skills@latest add "Plasticine-Yang/skills#v0.1.0"
 
 ## 开发与检查
 
-仓库内部维护技能位于 `.agents/skills/`。[sync-html-renderer](.agents/skills/sync-html-renderer/SKILL.md) 用于同步渲染器上游正式版本，保留本地适配，验证并发布 patch。它仅在本仓库显式调用；`metadata.internal: true` 使 skills CLI 默认安装列表排除该技能，marketplace 也不声明它。
+仓库内部维护技能位于 `.agents/skills/`。[sync-html-renderer](.agents/skills/sync-html-renderer/SKILL.md) 用于同步渲染器上游正式版本，保留本地适配并发布 patch。同步后直接进入发布入口，必要检查由发布入口负责，不额外执行功能回归。它仅在本仓库显式调用；`metadata.internal: true` 使 skills CLI 默认安装列表排除该技能，marketplace 也不声明它。
 
 需要 Node.js 22 或更高版本，使用 npm 10。
 

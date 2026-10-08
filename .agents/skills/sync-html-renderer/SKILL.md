@@ -1,6 +1,6 @@
 ---
 name: sync-html-renderer
-description: 同步 HTML renderer 的上游正式版本，保留本地适配，验证并发布本仓库的 patch release。
+description: 同步 HTML renderer 的上游正式版本，保留本地适配并发布本仓库的 patch release。
 disable-model-invocation: true
 metadata:
   internal: true
@@ -8,7 +8,7 @@ metadata:
 
 # 同步并发布 HTML renderer
 
-这是 `Plasticine-Yang/skills` 仓库的内部维护 skill，位于 `.agents/skills/sync-html-renderer/`。用户调用本 skill，即授权同步 `QingYunA/answer-me-with-html`、验证、中文提交和仓库 patch 发布；用户附加的版本或范围限制优先。
+这是 `Plasticine-Yang/skills` 仓库的内部维护 skill，位于 `.agents/skills/sync-html-renderer/`。用户调用本 skill，即授权同步 `QingYunA/answer-me-with-html`、中文提交和仓库 patch 发布；用户附加的版本或范围限制优先。
 
 ## 定位与准备
 
@@ -24,12 +24,13 @@ node /path/to/sync-html-renderer/scripts/sync-upstream.mjs prepare --repo /path/
 
 `unchanged: true` 表示上游 commit 和本地记录一致：若没有本次同步的待发布提交或发布状态，报告已是最新并结束。若上次已提交同步但尚未发完 release，继续原发布分支与原 summary。
 
-## 同步与验证
+## 同步与提交
 
 1. 根据差异判断实际行为变化，合并本地中文 `SKILL.md`、README 功能摘要及 `UPSTREAM.md` 的本地适配说明。保留本地 skill 名称、显式调用、包装入口、输出与配置隔离、`AM_HOME` 覆盖和本仓库更新渠道。写稿说明须与新运行时一致。
 2. 运行同一脚本的 `apply --repo /path/to/skills`。它只更新原样 CLI、未定制示例、MIT 许可及来源 commit/版本/摘要，保留包装和说明。校验失败先解决具体差异：本地定制用三方合并；运行依赖变化时按 lockfile 核对全部打包依赖、许可文件和 `UPSTREAM.md` 许可表，完成手动移植。脚本不会执行上游安装器。
-3. 添加面向用户的 patch Changeset。运行 `./scripts/project check` 和 `./scripts/project check-install`；新增非 UI 同步逻辑按仓库约定验证。对本次可见变化做浏览器检查，布局变化至少检查宽图表、暗色、窄屏与打印；视频相关变化验证旧页面 patch 和字幕视频。产物放 `.agent-tmp/`。
-4. 按仓库 tracker 规则记录完成；显式暂存本次交付、检查暂存 diff 并用中文 commit，得到可发布的干净工作区。
+3. 添加面向用户的 patch Changeset，按仓库 tracker 规则记录完成；显式暂存本次交付、检查暂存 diff 并用中文 commit，得到可发布的干净工作区。
+
+更新后直接进入仓库发布入口，由该入口负责必要检查；不在同步阶段重复运行 `check` / `check-install`，不额外生成验收页面或执行浏览器、布局、视频及完整功能回归。
 
 ## 发布与完成
 
