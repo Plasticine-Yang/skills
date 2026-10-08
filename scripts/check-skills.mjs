@@ -13,7 +13,6 @@ const groups = new Set();
 const rootLicensedSkills = new Set([
   'align-first',
   'setup-project',
-  'sync-html-renderer',
   'answer-me-with-text',
   'answer-me-with-diagram',
   'answer-me-with-html',
@@ -67,7 +66,7 @@ for (const plugin of marketplace.plugins) {
     assert(typeof metadata.description === 'string' && metadata.description.trim(), `${skillPath}: missing description`);
     assert(!names.has(metadata.name), `Duplicate skill name: ${metadata.name}`);
     names.add(metadata.name);
-    if (['setup-project', 'sync-html-renderer'].includes(metadata.name)) {
+    if (metadata.name === 'setup-project') {
       assert.equal(metadata['disable-model-invocation'], true, `${metadata.name} must be manually invoked`);
       const agentConfig = parseYaml(await readFile(join(dir, 'agents/openai.yaml'), 'utf8'), `${metadata.name}/agents/openai.yaml`);
       assert.equal(agentConfig.policy?.allow_implicit_invocation, false, `${metadata.name} must disable implicit invocation in Codex`);
@@ -104,6 +103,18 @@ for (const file of await filesUnder(join(root, 'skills'))) {
     assert(declared.has(dirname(file)), `Skill missing from marketplace: ${relative(root, file)}`);
   }
 }
+// The repository maintenance skill stays locally available and hidden from installation.
+const syncDir = join(root, '.agents/skills/sync-html-renderer');
+assert(!declared.has(syncDir), 'Internal sync skill must not appear in marketplace');
+const syncText = await readFile(join(syncDir, 'SKILL.md'), 'utf8');
+const syncFrontmatter = syncText.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
+assert(syncFrontmatter, 'Internal sync skill: missing YAML frontmatter');
+const syncMetadata = parseYaml(syncFrontmatter[1], '.agents/skills/sync-html-renderer/SKILL.md');
+assert.equal(syncMetadata.name, 'sync-html-renderer');
+assert.equal(syncMetadata.metadata?.internal, true, 'Internal sync skill must be hidden from CLI discovery');
+assert.equal(syncMetadata['disable-model-invocation'], true, 'Internal sync skill must be manually invoked');
+const syncAgentConfig = parseYaml(await readFile(join(syncDir, 'agents/openai.yaml'), 'utf8'), '.agents/skills/sync-html-renderer/agents/openai.yaml');
+assert.equal(syncAgentConfig.policy?.allow_implicit_invocation, false, 'Internal sync skill must disable implicit invocation in Codex');
 for (const file of await filesUnder(join(root, '.github/workflows'))) {
   if (/\.ya?ml$/.test(file)) parseYaml(await readFile(file, 'utf8'), relative(root, file));
 }

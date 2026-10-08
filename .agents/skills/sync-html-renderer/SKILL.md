@@ -2,11 +2,13 @@
 name: sync-html-renderer
 description: 同步 HTML renderer 的上游正式版本，保留本地适配，验证并发布本仓库的 patch release。
 disable-model-invocation: true
+metadata:
+  internal: true
 ---
 
 # 同步并发布 HTML renderer
 
-用于 `Plasticine-Yang/skills` 仓库。用户调用本 skill，即授权同步 `QingYunA/answer-me-with-html`、验证、中文提交和仓库 patch 发布；用户附加的版本或范围限制优先。
+这是 `Plasticine-Yang/skills` 仓库的内部维护 skill，位于 `.agents/skills/sync-html-renderer/`。用户调用本 skill，即授权同步 `QingYunA/answer-me-with-html`、验证、中文提交和仓库 patch 发布；用户附加的版本或范围限制优先。
 
 ## 定位与准备
 
