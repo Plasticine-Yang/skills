@@ -1,5 +1,11 @@
 # plasticine-skills
 
+## 0.5.3
+
+### Patch Changes
+
+- [#16](https://github.com/Plasticine-Yang/skills/pull/16) [`419531f`](https://github.com/Plasticine-Yang/skills/commit/419531f43135fce3c5cb986f4d123c295cb829f5) Thanks [@Plasticine-Yang](https://github.com/Plasticine-Yang)! - 将 sync-html-renderer 移至仓库内部的 .agents/skills，移除公开安装入口，并保留本仓库的同步与发布维护能力。
+
 ## 0.5.2
 
 ### Patch Changes

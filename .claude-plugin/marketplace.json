@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "Agent skills maintained by Plasticine",
-    "version": "0.5.2"
+    "version": "0.5.3"
   },
   "plugins": [
     {
       "name": "agentic-loops",
       "source": "./",
-      "version": "0.5.2",
+      "version": "0.5.3",
       "description": "Design and build recurring coding-agent loops with memory and PR feedback",
       "skills": [
         "./skills/agentic-loops/build-iterated-agentic-loop",
@@ -22,7 +22,7 @@
     {
       "name": "collaboration",
       "source": "./",
-      "version": "0.5.2",
+      "version": "0.5.3",
       "description": "Understand the user's idea and explain the proposed approach",
       "skills": [
         "./skills/collaboration/align-first"
@@ -31,7 +31,7 @@
     {
       "name": "engineering",
       "source": "./",
-      "version": "0.5.2",
+      "version": "0.5.3",
       "description": "Initialize projects and maintain engineering conventions",
       "skills": [
         "./skills/engineering/setup-project"
@@ -40,7 +40,7 @@
     {
       "name": "answer-me",
       "source": "./",
-      "version": "0.5.2",
+      "version": "0.5.3",
       "description": "Answer questions with text, diagrams, interactive HTML, or narrated video",
       "skills": [
         "./skills/answer-me/answer-me-with-text",
