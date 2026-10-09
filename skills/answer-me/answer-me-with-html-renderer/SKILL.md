@@ -9,11 +9,13 @@ disable-model-invocation: true
 
 你只写**内容稿**（扩展 Markdown）。排版、配色、暗黑模式、图形坐标全部由 `am` CLI 完成。**不要手写 HTML / CSS / SVG。**
 
-本实现从 QingYunA/answer-me-with-html 移植，使用自带模板渲染器。现有 `answer-me-with-html` 继续用于定制交互；用户选择本实现时，优先写稿件并复用组件。
+本实现从 QingYunA/answer-me-with-html 移植，使用自带模板渲染器。Answer Me 提供纯文字和模板渲染两个 skill；需要页面、图表或解释视频时，写稿件并复用本实现的组件。
 
-HTML 成品统一放在用户当前工作目录的 `.answer-me/html/`。生成时以用户工作目录为当前目录；使用 `-o` / `--out` 指定文件名时，输出路径也应位于该目录。只有用户明确指定其他位置时，才按其要求调整。
+HTML 成品统一放在用户主目录的 `~/.answer-me/html/`。生成时仍以用户工作目录为当前目录，以便读取稿件引用的项目文件；使用 `-o` / `--out` 指定名称时，输出路径也应位于该目录。只有用户明确指定其他位置时，才按其要求调整。
 
-视频播放页和 MP4 写入 `.answer-me/videos/`。配置和缓存默认在 `.answer-me/html-renderer/`，可用 `AM_HOME` 调整；修改数据目录不会改变 HTML 成品目录。
+视频播放页和 MP4 写入 `~/.answer-me/videos/`。配置和缓存默认在 `~/.answer-me/html-renderer/`，可用 `AM_HOME` 调整；修改数据目录不会改变成品目录。
+
+新产物统一命名为 `<名称>-${hash}.<扩展名>`。包装入口在默认名称和 `-o` / `--out` 指定名称后自动追加每次新生成的 12 位随机十六进制 hash，位于扩展名前；如 `topic-a83f219cd047.html`。同一视频的播放页和 MP4 共用后缀。以 CLI 的 `✓` 输出为实际路径；使用 `patch` 修改已有页面时保留原路径和 hash。
 
 本 skill 按本仓库约定显式调用。来源、固定版本与更新方式见 [UPSTREAM.md](UPSTREAM.md)，原 MIT 许可见 [LICENSE](LICENSE)。
 
@@ -31,7 +33,7 @@ HTML 成品统一放在用户当前工作目录的 `.answer-me/html/`。生成�
 
 默认 `theme: auto`：doc 或纯文字稿用 paper，带图表的 sheet 用 blueprint。自定义主题放在本实现 `AM_HOME/themes/` 下，以 JSON 文件名作为主题名；用 `am list` 查看、`am help theme` 查格式、`am theme check <名称或文件> --no-open` 检查颜色和对比度。主题会嵌入页面，字体仍依赖读者本机。
 
-`am clean --dry-run` 可列出本实现数据目录内的清理范围。仅按用户授权的范围运行清理；`am clean` 清理的是该目录内的缓存及上游布局的 pages/videos，不会清理默认写入 `.answer-me/html/` 和 `.answer-me/videos/` 的成品。成品清理需按实际文件路径处理。
+`am clean --dry-run` 可列出本实现数据目录内的清理范围。仅按用户授权的范围运行清理；`am clean` 清理的是该目录内的缓存及上游布局的 pages/videos，不会清理默认写入 `~/.answer-me/html/` 和 `~/.answer-me/videos/` 的成品。成品清理需按实际文件路径处理。
 
 更新本 skill 时，按原安装方式和范围从 `Plasticine-Yang/skills` 更新 `answer-me-with-html-renderer`。开发仓库更新上游代码时遵循 `UPSTREAM.md`。不要使用上游 `answer-me-with-html` 的更新命令替换本实现。
 
@@ -69,10 +71,10 @@ node "${CLAUDE_SKILL_DIR}/scripts/am.mjs"
 1. 先在心里列出 3～8 个面板。每个面板只回答一个子问题。
    稿件语言跟随提问。可自动识别简繁中文、日文、韩文，以及西里尔、阿拉伯、希伯来、泰文和希腊文字；拉丁文字默认视为英语。页面标签、`<html lang>`、文字方向、字体、写作检查和旁白共用语言解析。非英语的拉丁文字、难以判断简繁的短稿或需精确区分同文字语言时，在 frontmatter 声明 `lang:`，如 `zh-Hant`、`zh-TW`、`fr` 或 `ko`。未提供本地化标签的语言使用英文按钮，但保留正确的语言标签。日文只检查句长、段长，按中文字符上限；其他非中英文按词数检查这两项。
 2. 按信息形状选组件（见第 4 节）。
-3. 根据主题选择文件名，放入 `.answer-me/html/`，用 heredoc 一次性渲染：
+3. 根据主题选择名称，放入 `~/.answer-me/html/`，由包装入口添加 hash，用 heredoc 一次性渲染：
 
 ````bash
-node "${CLAUDE_SKILL_DIR}/scripts/am.mjs" render - -o .answer-me/html/topic.html <<'AM_EOF'
+node "${CLAUDE_SKILL_DIR}/scripts/am.mjs" render - -o "$HOME/.answer-me/html/topic.html" <<'AM_EOF'
 ---
 title: 标题
 ---
@@ -213,7 +215,7 @@ AM_EOF
 - 外观默认跟随配置里的 theme（通常是 blueprint 图纸风）。用户要"3b1b 那种深色风格"时在 frontmatter 写 `theme: 3b1b`。
 - 配音：默认 `--voice auto`，有 `ELEVENLABS_API_KEY` 用 ElevenLabs，否则用系统 TTS（macOS say），都没有就只出字幕。用户说"不要声音"时加 `--voice off`。
 - ElevenLabs 可用 `ELEVENLABS_VOICE_ID` 选择声音、`ELEVENLABS_MODEL_ID` 选择模型。已有本地兼容 OpenAI 的语音服务时，配置 `AM_TTS_URL` 并使用 `--voice local`；服务需返回 16 位 PCM WAV。其他模型、声音和服务参数见 `am help video`。
-- 产物是当前目录的 `.answer-me/videos/` 下的单文件播放页（音频内嵌）。用户要视频文件时加 `--mp4`，需要本机有 Chrome、ffmpeg 和 Node.js 22+，导出时间约为视频时长的 1.3 倍。
+- 产物是用户主目录的 `~/.answer-me/videos/` 下带 hash 后缀的单文件播放页（音频内嵌）。用户要视频文件时加 `--mp4`，MP4 与播放页共用名称和 hash，需要本机有 Chrome、ffmpeg 和 Node.js 22+，导出时间约为视频时长的 1.3 倍。
 - 完整语法：`am help video`。终端里回一句话加播放页路径（和 MP4 路径）。
 
 ## 8. 随包示例

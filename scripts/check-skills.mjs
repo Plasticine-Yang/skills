@@ -14,9 +14,6 @@ const rootLicensedSkills = new Set([
   'align-first',
   'setup-project',
   'answer-me-with-text',
-  'answer-me-with-diagram',
-  'answer-me-with-html',
-  'answer-me-with-video',
 ]);
 let referenceCount = 0;
 
