@@ -1,5 +1,11 @@
 # plasticine-skills
 
+## 0.5.5
+
+### Patch Changes
+
+- [#20](https://github.com/Plasticine-Yang/skills/pull/20) [`7bd3985`](https://github.com/Plasticine-Yang/skills/commit/7bd3985304e5d5ba4503abf43d4f98ac6791738e) Thanks [@Plasticine-Yang](https://github.com/Plasticine-Yang)! - Answer Me 仅保留 `answer-me-with-text`。移除独立 HTML、图解、视频及 HTML Renderer 技能，同时清理 Renderer 的内部同步技能、CLI、示例、专属测试、安装声明与输出目录约定；不再要求 `.answer-me` 目录。`setup-project` 及其通用项目约定保持不变。
+
 ## 0.5.4
 
 ### Patch Changes
