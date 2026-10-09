@@ -1,6 +1,6 @@
 # Plasticine Skills
 
-我维护的 coding-agent skills。当前提供四个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Collaboration** 包含先理解想法、说明做法的 `align-first`；**Engineering** 包含初始化项目的 `setup-project`；**Answer Me** 包含纯文字解释，以及一个从 QingYunA 移植的 HTML 模板渲染实现。
+我维护的 coding-agent skills。当前提供四个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Collaboration** 包含先理解想法、说明做法的 `align-first`；**Engineering** 包含初始化项目的 `setup-project`；**Answer Me** 只包含纯文字解释技能 `answer-me-with-text`。
 
 ## 安装
 
@@ -18,7 +18,6 @@ npx skills@latest add Plasticine-Yang/skills --skill design-control-loop
 npx skills@latest add Plasticine-Yang/skills --skill align-first
 npx skills@latest add Plasticine-Yang/skills --skill setup-project
 npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-text
-npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-html-renderer
 ```
 
 查看可安装列表：
@@ -70,22 +69,15 @@ Spec、任务地图和编号 ticket 保存在 `.scratch/<feature>/` 并随代码
 
 ## Answer Me
 
-根据 [Andrej Karpathy 关于理解模型输出的长帖](https://x.com/karpathy/status/2105819303471976479)编写。只保留纯文字与 HTML 模板渲染两个 skills；内容使用中文并保持简短。模板渲染版从 [QingYunA/answer-me-with-html](https://github.com/QingYunA/answer-me-with-html) 移植：模型写扩展 Markdown，自带 CLI 生成带图表的 HTML，并支持按需解释视频。
+根据 [Andrej Karpathy 关于理解模型输出的长帖](https://x.com/karpathy/status/2105819303471976479)编写。仅保留纯文字技能，内容使用中文并保持简短。
 
 | 名称 | 安装标识 | 用途 |
 | --- | --- | --- |
 | [Answer me with text](skills/answer-me/answer-me-with-text/SKILL.md) | `answer-me-with-text` | 达到 ASD-STE100 的 80% 程度去解释用户的问题。 |
-| [Answer me with HTML Renderer](skills/answer-me/answer-me-with-html-renderer/SKILL.md) | `answer-me-with-html-renderer` | 写扩展 Markdown，由自带 CLI 生成带图表、主题和写作检查的单文件 HTML。 |
 
-HTML 和视频成品分别放在用户主目录的 `~/.answer-me/html/` 和 `~/.answer-me/videos/` 下。新产物采用 `<名称>-${hash}.<扩展名>`，hash 为每次新生成的 12 位随机十六进制串；同一视频的播放页和 MP4 共用后缀，局部修改保留原路径。
+纯文字回答直接在聊天中输出。Skill 目录仅包含 `SKILL.md`，frontmatter 设置 `disable-model-invocation: true`。在支持该字段的 agent（例如 [Claude Code](https://code.claude.com/docs/en/skills)）中，仅允许用户手动触发，可使用 `/answer-me-with-text`。Codex 可通过选择 skill 或 `$answer-me-with-text` 显式调用；其隐式调用控制使用 `agents/openai.yaml` 的 `policy.allow_implicit_invocation`，本组当前未分发该配置文件，详见 [Codex 的调用策略](https://learn.chatgpt.com/docs/build-skills)。
 
-需要用现成图表和模板组织解释时用 `answer-me-with-html-renderer`。渲染版自带上游 v0.4.14 打包运行时，生成页面需要 Node.js 20+，无需额外 `npm install`。支持自动主题、paper 与自定义主题、图表放大缩放、本地图片内嵌、真实代码引用和红绿 diff，以及页面提问、面板评论和统一回复。语言识别与写作检查覆盖简繁中文和更多文字系统；局部修改保留页面、语言与视频设置。用户明确要求时可生成解释视频，配音可使用本地兼容语音服务。MP4 导出需要 Node.js 22+、Chrome 和 ffmpeg。
-
-渲染版的配置和缓存默认放在 `~/.answer-me/html-renderer/`，可用 `AM_HOME` 修改。使用 `-o` / `--out` 选择名称时也遵守成品目录约定；只有用户明确指定其他位置时才调整。包装入口保留指定目录，自动在名称后追加 hash，以 CLI 的 `✓` 输出为实际路径。生成时仍使用项目工作目录读取引用文件，修改 `AM_HOME` 不改变默认成品目录。调用 skill 内的 `scripts/am.mjs`，其包装入口会禁用上游的版本检查，更新跟随本仓库。来源、固定 commit 和维护方式见 [UPSTREAM.md](skills/answer-me/answer-me-with-html-renderer/UPSTREAM.md)。
-
-纯文字 skill 目录仅包含 `SKILL.md`；渲染版还分发 CLI、示例和许可文件。两个 skill 的 frontmatter 均设置 `disable-model-invocation: true`。在支持该字段的 agent（例如 [Claude Code](https://code.claude.com/docs/en/skills)）中，仅允许用户手动触发，可使用 `/answer-me-with-text` 等命令。Codex 可通过选择 skill 或 `$answer-me-with-text` 显式调用；其隐式调用控制使用 `agents/openai.yaml` 的 `policy.allow_implicit_invocation`，本组当前未分发该配置文件，详见 [Codex 的调用策略](https://learn.chatgpt.com/docs/build-skills)。
-
-原创 skills 沿用仓库根目录的 [MIT 许可](LICENSE)。从 HumanLayer 和 QingYunA 迁入的 skills 保留各自的 `LICENSE`；HTML 渲染版同时保留打包依赖的许可。
+原创 skills 沿用仓库根目录的 [MIT 许可](LICENSE)。从 HumanLayer 迁入的 skills 保留各自的 `LICENSE`。
 
 ## 版本与更新
 
@@ -109,8 +101,6 @@ npx skills@latest add "Plasticine-Yang/skills#v0.1.0"
 
 ## 开发与检查
 
-仓库内部维护技能位于 `.agents/skills/`。[sync-html-renderer](.agents/skills/sync-html-renderer/SKILL.md) 用于同步渲染器上游正式版本，保留本地适配并发布 patch。同步后直接进入发布入口，必要检查由发布入口负责，不额外执行功能回归。它仅在本仓库显式调用；`metadata.internal: true` 使 skills CLI 默认安装列表排除该技能，marketplace 也不声明它。
-
 需要 Node.js 22 或更高版本，使用 npm 10。
 
 ```bash
@@ -119,7 +109,7 @@ npm run check
 npm run check-install
 ```
 
-`check` 检查主 skill 的 frontmatter、分组映射、许可、包内 references、workflow YAML 和版本一致性，并验证 setup-project 脚手架、渲染器同步保护和发布逻辑。`check-install` 使用锁定版本的真实 skills CLI，在临时项目中分别安装各个 skills，并核对全部分发文件；还会从独立安装目录验证项目初始化脚手架、HTML 渲染、配置、面板修改与无声视频设置，不会安装到全局目录。
+`check` 检查主 skill 的 frontmatter、分组映射、许可、包内 references、workflow YAML 和版本一致性，并验证 setup-project 脚手架和发布逻辑。`check-install` 使用锁定版本的真实 skills CLI，在临时项目中分别安装各个 skills，核对全部分发文件，并从独立安装目录验证项目初始化脚手架，不会安装到全局目录。
 
 首次迁移还可以运行：
 

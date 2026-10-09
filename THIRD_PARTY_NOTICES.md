@@ -13,17 +13,6 @@ The initial adaptation changes generated skill paths to `.agents/skills/`, adds 
 
 The examples still mention Claude Code and CodeLayer intentionally: they remain supported runner choices, and the original concrete examples provide context. The `codelayer-agent` PR marker is preserved as the routing protocol used by both the iteration script and workflow templates.
 
-## Answer me with HTML Renderer
-
-`skills/answer-me/answer-me-with-html-renderer/` is derived from [QingYunA/answer-me-with-html](https://github.com/QingYunA/answer-me-with-html), under MIT.
-
-- Copyright (c) 2026 Answer me with HTML contributors.
-- Upstream commit: `e22e99f4fbfedef23d313ee1f13e0ad578c05278` (upstream package version `0.4.14`).
-- The upstream `skills/answer-me-with-html/scripts/am.mjs` is retained unchanged in `scripts/upstream/am.mjs`.
-- The skill retains the upstream MIT license in `LICENSE`, and the bundled dependency licenses for `@dagrejs/dagre`, `@dagrejs/graphlib`, and `marked` in `licenses/`.
-
-Local changes rename the skill to `answer-me-with-html-renderer`, follow this repository's manual invocation convention, and add a launcher that puts HTML and videos in `~/.answer-me/` under the user's home directory. New artifact names include a random 12-digit hexadecimal suffix, including explicitly named outputs; in-place patches retain their paths. The launcher keeps configuration/cache separate and disables the upstream version checker; updates come from this repository. The renderer, templates, diagram components, writing checks, patch support, and optional video runtime are preserved. No upstream always-on plugin or global `am` command is installed. See the distributed [UPSTREAM.md](skills/answer-me/answer-me-with-html-renderer/UPSTREAM.md) for provenance and maintenance instructions.
-
 ## Setup Project
 
 The local issue tracker conventions, triage vocabulary, domain consumer rules and wayfinding operations in `skills/engineering/setup-project/templates/` are adapted from [Matt Pocock's setup skill](https://github.com/mattpocock/skills/tree/24fe0ef7737efae15c87225755e9f6f5965e4888/skills/engineering/setup-matt-pocock-skills), under MIT.

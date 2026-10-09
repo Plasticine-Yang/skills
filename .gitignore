@@ -1,7 +1,6 @@
 node_modules/
 .DS_Store
 *.log
-.answer-me/
 .agent-tmp/
 .worktrees/
 

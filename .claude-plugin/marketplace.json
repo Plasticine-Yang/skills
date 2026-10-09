@@ -41,10 +41,9 @@
       "name": "answer-me",
       "source": "./",
       "version": "0.5.4",
-      "description": "Answer questions with clear text or template-rendered HTML, diagrams, and optional video",
+      "description": "Explain questions in clear, controlled text",
       "skills": [
-        "./skills/answer-me/answer-me-with-text",
-        "./skills/answer-me/answer-me-with-html-renderer"
+        "./skills/answer-me/answer-me-with-text"
       ]
     }
   ]

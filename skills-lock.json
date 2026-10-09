@@ -7,12 +7,6 @@
       "skillPath": "skills/collaboration/align-first/SKILL.md",
       "computedHash": "a0a48aebc80d8c0aa8b450277c3637839ab4a5be1d4c540e78d222a54ee43ed3"
     },
-    "answer-me-with-html-renderer": {
-      "source": "Plasticine-Yang/skills",
-      "sourceType": "github",
-      "skillPath": "skills/answer-me/answer-me-with-html-renderer/SKILL.md",
-      "computedHash": "9bf91652347f583b4bf5e2dd22fb5e4a2632bc214a5d43d30248c8759e07f38b"
-    },
     "answer-me-with-text": {
       "source": "Plasticine-Yang/skills",
       "sourceType": "github",
