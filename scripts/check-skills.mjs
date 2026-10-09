@@ -78,7 +78,7 @@ for (const plugin of marketplace.plugins) {
       const contents = await readFile(file, 'utf8');
       if (/\.ya?ml$/.test(file)) parseYaml(contents, relative(root, file));
       if (!file.endsWith('.md')) continue;
-      // These upstream templates refer to references relative to the skill root.
+      // Resolve references relative to the skill root.
       const references = new Set([
         ...Array.from(contents.matchAll(/`(references\/[^`\s]+)`/g), (m) => m[1]),
         ...Array.from(contents.matchAll(/\]\((references\/[^)\s]+)\)/g), (m) => m[1]),
