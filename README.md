@@ -1,6 +1,6 @@
 # Plasticine Skills
 
-我维护的 coding-agent skills。当前提供四个分组：**Agentic Loops** 包含两个从 HumanLayer 迁入的 loop skills；**Collaboration** 包含先理解想法、说明做法的 `align-first`；**Engineering** 包含初始化项目的 `setup-project`；**Answer Me** 只包含纯文字解释技能 `answer-me-with-text`。
+我维护的 coding-agent skills。当前提供三个分组：**Collaboration** 包含先理解想法、说明做法的 `align-first`；**Engineering** 包含初始化项目的 `setup-project`；**Answer Me** 只包含纯文字解释技能 `answer-me-with-text`。
 
 ## 安装
 
@@ -8,13 +8,11 @@
 npx skills@latest add Plasticine-Yang/skills
 ```
 
-交互菜单中可以整组选择 **Agentic Loops**、**Collaboration**、**Engineering** 或 **Answer Me**，也可以单独选择 skill。之后选择目标 agent 和安装范围；项目安装是默认选项，全局安装使用 `-g`。
+交互菜单中可以整组选择 **Collaboration**、**Engineering** 或 **Answer Me**，也可以单独选择 skill。之后选择目标 agent 和安装范围；项目安装是默认选项，全局安装使用 `-g`。
 
 只安装一个 skill：
 
 ```bash
-npx skills@latest add Plasticine-Yang/skills --skill build-iterated-agentic-loop
-npx skills@latest add Plasticine-Yang/skills --skill design-control-loop
 npx skills@latest add Plasticine-Yang/skills --skill align-first
 npx skills@latest add Plasticine-Yang/skills --skill setup-project
 npx skills@latest add Plasticine-Yang/skills --skill answer-me-with-text
@@ -50,23 +48,6 @@ Spec、任务地图和编号 ticket 保存在 `.scratch/<feature>/` 并随代码
 
 补装只针对当前项目和当前 agent 的缺失技能，复用已有版本和定制内容。安装源与 CLI 固定到经过核对的版本；来源和维护方式见 [UPSTREAM.md](skills/engineering/setup-project/UPSTREAM.md)。初始化结束后显式暂存本次变更并用中文提交，已有用户改动和暂存内容保留。
 
-## Agentic Loops
-
-| Skill | 用途 |
-| --- | --- |
-| [build-iterated-agentic-loop](skills/agentic-loops/build-iterated-agentic-loop/SKILL.md) | 把明确的重复任务搭建成仓库内 skill、GitHub Actions workflow、记忆文件和 PR 反馈迭代机制。 |
-| [design-control-loop](skills/agentic-loops/design-control-loop/SKILL.md) | 从目标出发，通过访谈设计 sensor、controller、actuator 与反馈机制，先本地验证，再接入持续运行的 workflow。 |
-
-安装后，在 agent 中要求使用对应 skill，例如：
-
-> 使用 design-control-loop，帮我设计并搭建一个逐步消除旧 API 调用的循环。
-
-支持 slash commands 的 agent 也可以使用 `/design-control-loop` 或 `/build-iterated-agentic-loop`。
-
-这两个 skills 用于**设计和生成自动化**；安装本身不会创建或启动定时任务。生成的 skill 默认放在目标仓库的 `.agents/skills/`。是否自动发现这个目录由所选 agent 决定；需要时通过 prompt 显式指向该 `SKILL.md`，或使用该 agent 的安装配置。
-
-原文已经提供 Claude Code、Codex、OpenCode、CodeLayer 的 runner 参考。workflow 中的 CodeLayer 命令是示例，生成实际 workflow 时需要按所选 agent 替换认证、安装、调用和结果提取，普通运行与 `/iterate` 两条路径都要处理。
-
 ## Answer Me
 
 根据 [Andrej Karpathy 关于理解模型输出的长帖](https://x.com/karpathy/status/2105819303471976479)编写。仅保留纯文字技能，内容使用中文并保持简短。
@@ -77,7 +58,7 @@ Spec、任务地图和编号 ticket 保存在 `.scratch/<feature>/` 并随代码
 
 纯文字回答直接在聊天中输出。Skill 目录仅包含 `SKILL.md`，frontmatter 设置 `disable-model-invocation: true`。在支持该字段的 agent（例如 [Claude Code](https://code.claude.com/docs/en/skills)）中，仅允许用户手动触发，可使用 `/answer-me-with-text`。Codex 可通过选择 skill 或 `$answer-me-with-text` 显式调用；其隐式调用控制使用 `agents/openai.yaml` 的 `policy.allow_implicit_invocation`，本组当前未分发该配置文件，详见 [Codex 的调用策略](https://learn.chatgpt.com/docs/build-skills)。
 
-原创 skills 沿用仓库根目录的 [MIT 许可](LICENSE)。从 HumanLayer 迁入的 skills 保留各自的 `LICENSE`。
+当前分发的 skills 沿用仓库根目录的 [MIT 许可](LICENSE)。第三方模板与许可见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
 ## 版本与更新
 
@@ -109,15 +90,7 @@ npm run check
 npm run check-install
 ```
 
-`check` 检查主 skill 的 frontmatter、分组映射、许可、包内 references、workflow YAML 和版本一致性，并验证 setup-project 脚手架和发布逻辑。`check-install` 使用锁定版本的真实 skills CLI，在临时项目中分别安装各个 skills，核对全部分发文件，并从独立安装目录验证项目初始化脚手架，不会安装到全局目录。
-
-首次迁移还可以运行：
-
-```bash
-npm run check-migration
-```
-
-它对照迁移快照核对 20 个上游文件：14 个字节一致，6 个只包含路径、注释和引用修改。后续有意修改 skill 后，这个历史快照检查会报告差异；普通 CI 不把 skills 永久锁定到初版。
+`check` 检查主 skill 的 frontmatter、分组映射、许可、包内 references、仓库 workflow YAML 和版本一致性，并验证 setup-project 脚手架和发布逻辑。`check-install` 使用锁定版本的真实 skills CLI，在临时项目中分别安装各个 skills，核对全部分发文件，并从独立安装目录验证项目初始化脚手架，不会安装到全局目录。
 
 ## 发版
 
@@ -144,16 +117,5 @@ Minor、major 或手动发布沿用以下流程：
 首次启用时，在 GitHub **Settings → Actions → General → Workflow permissions** 中允许 **Allow GitHub Actions to create and approve pull requests**，让 Changesets bot 可以创建版本 PR。workflow 自身声明了所需的 contents/pull-requests 权限。若仓库有分支保护或额外规则，按规则 review 版本 PR。
 
 `main` 上的内容一旦合并，仓库级安装即可获取；版本 PR 和 tag 用于记录、固定版本与回退，不作为默认分支内容的分发闸门。
-
-## 来源与修改范围
-
-HumanLayer 上游固定为 commit `ca7c8088db69e315a8b2deea43820270457f8f3c`。
-
-- 默认生成路径统一为 `.agents/skills/`，保留探索已有 `.claude/skills` 的要求。
-- workflow 只增加 runner 替换注释，执行结构不变。
-- 修正示例中的失效引用。
-- 原流程、访谈、完成条件、控制论、记忆规则、runner 模板、迭代脚本与 PR 标记保留。
-
-逐文件修改见 [迁移 patch](docs/humanlayer-migration.patch)，来源与许可见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。上游示例保留为示例，使用时按目标仓库调整。
 
 License: [MIT](LICENSE)。

@@ -1,3 +1,2 @@
-# Preserve upstream Markdown hard breaks and the exact migration patch.
+# Preserve Markdown hard breaks.
 skills/**/*.md whitespace=-blank-at-eol
-docs/humanlayer-migration.patch -whitespace

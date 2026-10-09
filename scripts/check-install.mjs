@@ -40,9 +40,10 @@ async function compareTree(source, installed) {
 
 try {
   const listed = run(['add', root, '--list'], sandbox);
-  for (const name of ['answer-me-with-diagram', 'answer-me-with-html', 'answer-me-with-video', 'answer-me-with-html-renderer', 'sync-html-renderer']) {
+  for (const name of ['build-iterated-agentic-loop', 'design-control-loop', 'answer-me-with-diagram', 'answer-me-with-html', 'answer-me-with-video', 'answer-me-with-html-renderer', 'sync-html-renderer']) {
     assert(!new RegExp(`\\b${name}\\b(?!-)`).test(listed), `Installer exposed removed skill ${name}`);
   }
+  assert(!listed.includes('Agentic Loops'), 'Installer exposed removed Agentic Loops group');
   for (const plugin of marketplace.plugins) {
     const title = plugin.name.split('-').map((s) => s[0].toUpperCase() + s.slice(1)).join(' ');
     assert(listed.includes(title), `Installer omitted group ${title}`);
