@@ -1,6 +1,6 @@
 # 来源与维护
 
-这是 `answer-me-with-html` 的模板渲染实现，安装名为 `answer-me-with-html-renderer`。本仓库原有的交互 HTML skill 保持独立。
+这是 `answer-me-with-html` 的模板渲染实现，安装名为 `answer-me-with-html-renderer`。本仓库的 Answer Me 分组仅提供纯文字与本模板渲染实现。
 
 - 上游：[QingYunA/answer-me-with-html](https://github.com/QingYunA/answer-me-with-html)。
 - 固定 commit：`e22e99f4fbfedef23d313ee1f13e0ad578c05278`。
@@ -16,9 +16,9 @@
 
 `scripts/am.mjs` 是本地包装入口：
 
-- HTML 默认输出到当前目录的 `.answer-me/html/`；视频播放页和 MP4 输出到 `.answer-me/videos/`。
-- 默认文件名带时间戳和随机后缀；`-o` / `--out` 保留用户指定路径。
-- 配置、状态与配音缓存使用当前目录的 `.answer-me/html-renderer/`；已有 `AM_HOME` 会被保留。
+- HTML 默认输出到用户主目录的 `~/.answer-me/html/`；视频播放页和 MP4 输出到 `~/.answer-me/videos/`。
+- 新产物文件名在扩展名前自动追加 `-${hash}`，hash 为每次生成的 12 位随机十六进制串；`-o` / `--out` 保留指定目录并追加后缀，也支持 `~/` 路径。视频播放页与 MP4 共用后缀，`patch` 保留已有路径。
+- 配置、状态与配音缓存使用用户主目录的 `~/.answer-me/html-renderer/`；已有 `AM_HOME` 会被保留。稿件引用仍相对原工作目录解析。
 - 禁用上游后台版本检查与更新提示，防止使用上游安装名替换本移植版。
 - `am clean` 仅处理 `AM_HOME` 数据目录，不处理这些默认成品目录。原版 `help` 中的默认路径以包装入口的说明为准。
 
