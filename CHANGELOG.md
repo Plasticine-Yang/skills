@@ -1,5 +1,11 @@
 # plasticine-skills
 
+## 0.5.6
+
+### Patch Changes
+
+- [#23](https://github.com/Plasticine-Yang/skills/pull/23) [`f7e0716`](https://github.com/Plasticine-Yang/skills/commit/f7e0716e39304dc52a38327ea68543cc45404c6a) Thanks [@Plasticine-Yang](https://github.com/Plasticine-Yang)! - 移除 Agentic Loops 的两个技能、安装分组与专用迁移检查，更新文档并验证剩余技能的独立安装。
+
 ## 0.5.5
 
 ### Patch Changes
