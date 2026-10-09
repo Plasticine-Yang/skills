@@ -1,6 +1,6 @@
 # HTML renderer 上游更新调查
 
-核查日期：2026-10-05（Asia/Shanghai）。本文保留升级前的同步建议和当时的验证边界；当前采用的版本以 [UPSTREAM.md](../../skills/answer-me/answer-me-with-html-renderer/UPSTREAM.md) 为准。依据为上游 GitHub 发布页、固定提交源码及完整 Git 历史。
+核查日期：2026-10-05（Asia/Shanghai）。本文为历史调研记录；HTML Renderer 与同步技能已从当前分发中移除，Answer Me 仅保留纯文字。原实现的版本与来源见 [v0.5.4 的 UPSTREAM.md](https://github.com/Plasticine-Yang/skills/blob/v0.5.4/skills/answer-me/answer-me-with-html-renderer/UPSTREAM.md)。下文记录当时的同步建议和验证边界，依据为上游 GitHub 发布页、固定提交源码及完整 Git 历史。
 
 ## 版本边界
 
@@ -46,7 +46,7 @@
 3. 保留本地 skill 名称、显式调用约束、输出与配置目录、`AM_HOME` 覆盖、禁用上游更新检查及本仓库更新渠道。上游安装/更新命令适用于其原始 skill，不宜直接用于本地改名版本。[上游安装与更新说明](https://github.com/QingYunA/answer-me-with-html/blob/bac7c464ee85f7008931de38e9fcaac95fa5a007/skills/answer-me-with-html/SKILL.md)
 4. 运行适用的独立安装和 CLI 检查；浏览器验证新布局、宽表、暗色、窄屏和打印，另验旧页面 patch、无声视频及用户覆盖路径。仅调查不意味着这些验证已经全部执行。
 
-本地仓库与已安装副本的包装入口、SKILL.md 和上游 bundle 已核对一致；两份旧 bundle 的 SHA256 都与来源记录相符。本地差异和更新流程见 [UPSTREAM.md](../../skills/answer-me/answer-me-with-html-renderer/UPSTREAM.md)。实际升级时同时更新该文件及根目录 [THIRD_PARTY_NOTICES.md](../../THIRD_PARTY_NOTICES.md)，添加 Changeset，运行 `./scripts/project check` 与 `./scripts/project check-install`，验证后提交。中文页面/视频示例在起点与 v0.4.9 之间未变，可继续使用；安装副本在仓库更新后沿原安装渠道和范围同步。
+当时，本地仓库与已安装副本的包装入口、SKILL.md 和上游 bundle 已核对一致；两份旧 bundle 的 SHA256 都与来源记录相符。本地差异和更新流程可参考 [v0.5.4 的 UPSTREAM.md](https://github.com/Plasticine-Yang/skills/blob/v0.5.4/skills/answer-me/answer-me-with-html-renderer/UPSTREAM.md) 与 [当时的 THIRD_PARTY_NOTICES.md](https://github.com/Plasticine-Yang/skills/blob/v0.5.4/THIRD_PARTY_NOTICES.md)。当时升级需更新来源记录，添加 Changeset，运行仓库与独立安装检查后提交；中文页面/视频示例在起点与 v0.4.9 之间未变，安装副本沿原渠道和范围同步。这是已移除实现的维护记录。
 
 ## 临时兼容试验
 

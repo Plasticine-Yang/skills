@@ -18,6 +18,8 @@ Type: task
 
 ## Comments
 
+发布前用户调整方案：v0.5.5 尚未发布，版本 PR #21 保持未合并；本 ticket 的目录及 Renderer 行为将由 [仅保留纯文字的清理任务](../../answer-me-text-only/issues/01-remove-renderer.md) 替代。
+
 用户已确认目录与随机后缀方案，以及只保留两个技能，并授权提交和 patch 发布。
 
 完成：默认产物及配置使用用户主目录；默认和显式输出名称自动追加 12 位随机后缀，支持 `~/` 路径并保留指定目录。HTML/video patch 原地更新，视频导出沿用播放页 basename。移除三个独立技能以及 marketplace、安装锁文件和说明中的当前安装引用。历史 CHANGELOG、任务与调研记录保留。
