@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "Agent skills maintained by Plasticine",
-    "version": "0.5.6"
+    "version": "0.5.7"
   },
   "plugins": [
     {
       "name": "collaboration",
       "source": "./",
-      "version": "0.5.6",
+      "version": "0.5.7",
       "description": "Understand the user's idea and explain the proposed approach",
       "skills": [
         "./skills/collaboration/align-first"
@@ -21,7 +21,7 @@
     {
       "name": "engineering",
       "source": "./",
-      "version": "0.5.6",
+      "version": "0.5.7",
       "description": "Initialize projects and maintain engineering conventions",
       "skills": [
         "./skills/engineering/setup-project"
@@ -30,7 +30,7 @@
     {
       "name": "answer-me",
       "source": "./",
-      "version": "0.5.6",
+      "version": "0.5.7",
       "description": "Explain questions in clear, controlled text",
       "skills": [
         "./skills/answer-me/answer-me-with-text"
