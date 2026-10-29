@@ -1,5 +1,11 @@
 # plasticine-skills
 
+## 0.5.7
+
+### Patch Changes
+
+- [#25](https://github.com/Plasticine-Yang/skills/pull/25) [`366ba0d`](https://github.com/Plasticine-Yang/skills/commit/366ba0dbe1ccad21b3e7a6d424df664473fc9461) Thanks [@Plasticine-Yang](https://github.com/Plasticine-Yang)! - align-first 要求在用户显式授权之前不开始开发。
+
 ## 0.5.6
 
 ### Patch Changes
