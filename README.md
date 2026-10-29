@@ -28,7 +28,7 @@ npx skills@latest add Plasticine-Yang/skills --list
 
 | Skill | 用途 |
 | --- | --- |
-| [align-first](skills/collaboration/align-first/SKILL.md) | 你先理解我的想法，告诉我你会怎么做。 |
+| [align-first](skills/collaboration/align-first/SKILL.md) | 你先理解我的想法，告诉我你会怎么做，在我显式授权之前不要开始开发。 |
 
 正文仅包含上面这一句话。仅允许用户手动触发：Claude Code 使用 `/align-first`，由 frontmatter 的 `disable-model-invocation: true` 控制；Codex 使用 `$align-first` 或选择 skill，由 `agents/openai.yaml` 的 `policy.allow_implicit_invocation: false` 控制。
 
